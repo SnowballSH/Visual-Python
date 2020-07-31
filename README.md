@@ -1,8 +1,10 @@
 First Code Jam
+
 Good luck!
 
 Most people agree that the code generator is good, so we'll do it.
 I have some things to tell you, and if you have other ideas or concerns please tell me
+
 writer.py: the main alg file, contains a writer class which contains a run function, (Maybe some error classes).
 
 Each person works with a following things, which github will merge them into the main file later. I'll explain how to code
