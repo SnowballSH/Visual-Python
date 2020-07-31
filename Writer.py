@@ -20,8 +20,7 @@ class Writer:
     ###########################################
     # Example of how your code will look like #
     ###########################################
-    
-    
+
     '''
     def print(self, *args):
         thing = " ".join([str(w) for w in args])
@@ -40,16 +39,12 @@ class Writer:
     '''
     print("Hello World!")
     '''
-    
-    
+
     ##########################
     # Workplace: 12944qwerty #
     # task: built-in funcs   #
     ##########################
-    
+
     def print(self, *args):
         thing = " ".join([str(w) for w in args])
         self.f.write(f'print("{thing}")')
-    
-    
-    
