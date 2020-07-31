@@ -15,5 +15,5 @@ class Writer:
         self.append_file = self.f = open(file_path, "a")
 
     def close(self):
+        # Close the file
         self.append_file.close()
-
