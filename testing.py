@@ -11,6 +11,8 @@ w.assign_var("intVar", "5")
 w.assign_var("floatVar", "5.2")
 w.assign_var("boolVar", "True")
 
+w.print_("intVar")
+
 w.gt_(5,6)
 w.lt_(2,9)
 w.gte(189,3929)
@@ -26,8 +28,6 @@ w.modulus(22,48)
 
 w.anding(True, False)
 w.oring(False, True)
-
-w.print_("intVar")
 
 
 w.close()
