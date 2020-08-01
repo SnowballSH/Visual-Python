@@ -97,5 +97,5 @@ class Writer:
 
     ##########################
     # Workplace: Luka        #
-    # task:                  #
+    # task: Operators        #
     ##########################
