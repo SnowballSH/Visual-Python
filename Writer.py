@@ -114,6 +114,9 @@ class Writer:
 
         return 'str', value
 
+    def write(self, string):
+        self.f.write(string)
+
     ##########################
     # Workplace: 12944qwerty #
     # task: compiler program #
