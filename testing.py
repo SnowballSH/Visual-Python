@@ -14,21 +14,20 @@ w.assign_var("boolVar", "True")
 
 w.print_("intVar")
 
-w.gt_(5,6)
-w.lt_(2,9)
-w.gte(189,3929)
-w.lte(29229,2828)
-w.e(22,39)
+w.gt_(5, 6)
+w.lt_(2, 9)
+w.gte(189, 3929)
+w.lte(29229, 2828)
+w.e(22, 39)
 
-w.summing(28,40)
-w.substitute(299,292)
-w.multiply(2929,191)
-w.divide(2992,393883)
-w.divideWithIntegralResult(27,103)
-w.modulus(22,48)
+w.summing(28, 40)
+w.substitute(299, 292)
+w.multiply(2929, 191)
+w.divide(2992, 393883)
+w.divideWithIntegralResult(27, 103)
+w.modulus(22, 48)
 
 w.anding(True, False)
 w.oring(False, True)
-
 
 w.close()
