@@ -1,3 +1,4 @@
+  
 # Main Writer for master branch
 
 
@@ -9,7 +10,7 @@ class Writer:
 
         self.append_file = self.f = open(file_path, "a")
 
-        self.vars = None
+        self.vars = []
 
     def close(self):
         # Close the file
@@ -52,7 +53,9 @@ class Writer:
     # task: built-in funcs   #
     ##########################
 
-    def print_(self, *args, end='\n', sep=' '):
+    #Added r to \n because it prints a newline, not add the \n
+    #We still cannot print vars, and i dunno how to do that.
+    def print_(self, *args, end=r'\n', sep=' '):
         thing = sep.join([str(w) for w in args])
         self.f.write(f'print("{thing}",end="{end}")\n')
 
@@ -60,7 +63,29 @@ class Writer:
     # Workplace: Hoax        #
     # task: var assignments  #
     ##########################
+    
+    #str, int, float, bool - 4 vartypes, automatically, its string
+    #always accepts strings as input, even if its a int or a boolean
+    def assignVar(self, varName, varValue, varType='str'):
+        if varType == 'str':
+            self.f.write(f'{varName} = "{varValue}"\n')
+        elif varType == 'int':
+            try:
+                int(varValue)
+                self.f.write(f'{varName} = {varValue}\n')
+            except:
+                raise TypeError("Variable value is not a integer")
+        elif varType == 'float':
+            float(varValue)
+            self.f.write(f'{varName} = {varValue}\n')
 
+        elif varType == 'bool':
+            if varValue not in ["True", "False"]:
+                raise TypeError("Variable value is not a boolean")
+            else:
+                self.f.write(f'{varName} = {varValue.title()}\n')
+            
+    
     ##########################
     # Workplace: Luka        #
     # task:                  #
