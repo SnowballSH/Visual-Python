@@ -11,9 +11,8 @@ def all_(*args):
     i = ", ".join(args)
     return f"all({i})"
 
-    # Operators
 
-    # operators
+# Operators by Luka
 
 
 def gt_(self, number, number0):
