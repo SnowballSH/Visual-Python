@@ -44,7 +44,7 @@ class Writer:
 
     ##########################
     # Workplace: SnowballSH  #
-    # task: var assignments  #
+    # task:                  #
     ##########################
 
     ##########################
@@ -58,7 +58,7 @@ class Writer:
 
     ##########################
     # Workplace: Hoax        #
-    # task:                  #
+    # task: var assignments  #
     ##########################
 
     ##########################
