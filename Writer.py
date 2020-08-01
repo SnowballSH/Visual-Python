@@ -123,8 +123,8 @@ class Writer:
     def print_(self, *args, end=None, sep=' '):
         thing = ", ".join(args)
         self.f.write(
-            f'print({thing}' + str(f", end={end}" if end is not None else "") + str(
-                f", sep={sep}" if sep != ' ' else "") + ")\n")
+            f'print({thing}' + str(f", end='{end}'" if end is not None else "") + str(
+                f", sep='{sep}'" if sep != ' ' else "") + ")\n")
 
     ##########################
     # Workplace: Hoax        #
