@@ -5,6 +5,7 @@ w = Writer.Writer("test.py")
 w.print_("'Hello'", "'World!'", sep="|")
 
 # Testing my var assignment
+
 w.assign_var("stringVar", "'Hello!!'")
 w.assign_var("stringVar2", "'5'")
 w.assign_var("intVar", "5")
