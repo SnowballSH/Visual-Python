@@ -19,28 +19,25 @@ class Writer:
         with open(self.file_path, "w") as f:
             f.write("")
 
-    ###########################################
-    # Example of how your code will look like #
-    ###########################################
+    @staticmethod
+    def deter_type(string):
+        value = string
 
-    '''
-    def print(self, *args):
-        thing = " ".join([w for w in args])
-        self.f.write(f'print("{thing}")')
-    '''
+        if '.' in string:
+            if string.replace('.', '', 1).isdigit():
+                value = float(string)
+                return 'float', value
 
-    # In the running file:
-    '''
-    import Writer
-    w = Writer.Writer("test.py")
-    w.print("Hello", "World!")
-    w.close()
-    '''
+        try:
+            value = int(string)
+            return 'int', value
+        except ValueError:
+            pass
 
-    # In the target file:
-    '''
-    print("Hello World!")
-    '''
+        if string in ["True", "False"]:
+            return 'bool', value
+
+        return 'str', value
 
     ##########################
     # Workplace: 12944qwerty #
@@ -56,7 +53,7 @@ class Writer:
     # We still cannot print vars, and i dunno how to do that.
     def print_(self, *args, end=r'\n', sep=' '):
         thing = sep.join([str(w) for w in args])
-        self.f.write(f'print("{thing}",end="{end}")\n')
+        self.f.write(f'print("{thing}", end="{end}")\n')
 
     ##########################
     # Workplace: Hoax        #
@@ -66,24 +63,34 @@ class Writer:
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
 
-    def assign_var(self, var_name, var_value, var_type='str'):
-        if var_type == 'str':
-            self.f.write(f'{var_name} = "{var_value}"\n')
-        elif var_type == 'int':
-            try:
-                int(var_value)
+    def assign_var(self, var_name, var_value, var_type=None):
+        if var_type is None:
+            type_, value = self.deter_type(var_value)
+        else:
+            type_ = var_type
+            if var_type == 'str':
+                value = str(var_value)
+            elif var_type == 'int':
+                try:
+                    int(var_value)
+                    value = int(var_value)
+                except:
+                    raise TypeError("Variable value is not a integer")
+            elif var_type == 'float':
+                float(var_value)
+                value = float(var_value)
                 self.f.write(f'{var_name} = {var_value}\n')
-            except:
-                raise TypeError("Variable value is not a integer")
-        elif var_type == 'float':
-            float(var_value)
-            self.f.write(f'{var_name} = {var_value}\n')
 
-        elif var_type == 'bool':
-            if var_value not in ["True", "False"]:
-                raise TypeError("Variable value is not a boolean")
+            elif var_type == 'bool':
+                if var_value not in ["True", "False"]:
+                    raise TypeError("Variable value is not a boolean")
+                else:
+                    value = bool(var_value)
+
             else:
-                self.f.write(f'{var_name} = {var_value.title()}\n')
+                value = None
+
+        self.f.write(f'{var_name}: {type_} = "{value}"\n')
 
     ##########################
     # Workplace: Luka        #
