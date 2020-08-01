@@ -90,7 +90,10 @@ class Writer:
             else:
                 value = None
 
-        self.f.write(f'{var_name}: {type_} = "{value}"\n')
+        if type_ == 'str':
+            value = f'"{value}"'
+
+        self.f.write(f'{var_name}: {type_} = {value}\n')
 
     ##########################
     # Workplace: Luka        #
