@@ -60,7 +60,7 @@ def divide(number, number0):
     return f'{number} / {number0}'
 
 
-def divideWithIntegralResult(number, number0):
+def floor_div(number, number0):
     return f'{number} // {number0}'
 
 
