@@ -2,7 +2,7 @@ import Writer
 
 w = Writer.Writer("test.py")
 
-w.print_("'Hello'", "'World!'", sep="|")
+w.print_("'Hello'", "'World!'", sep="'|'")
 
 # Testing my var assignment
 
