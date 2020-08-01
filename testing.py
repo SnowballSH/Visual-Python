@@ -2,7 +2,7 @@ import Writer
 
 w = Writer.Writer("test.py")
 
-w.print_("Hello", "World!")
+w.print_("'Hello'", "'World!'", sep="|")
 
 # Testing my var assignment
 w.assign_var("stringVar", "'Hello!!'")
@@ -26,5 +26,8 @@ w.modulus(22,48)
 
 w.anding(True, False)
 w.oring(False, True)
+
+w.print_("intVar")
+
 
 w.close()
