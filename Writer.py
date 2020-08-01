@@ -41,6 +41,11 @@ class Writer:
     '''
 
     ##########################
+    # Workplace: SnowballSH  #
+    # task: var assignments  #
+    ##########################
+
+    ##########################
     # Workplace: 12944qwerty #
     # task: built-in funcs   #
     ##########################
@@ -48,3 +53,13 @@ class Writer:
     def print(self, *args):
         thing = " ".join([str(w) for w in args])
         self.f.write(f'print("{thing}")')
+
+    ##########################
+    # Workplace: Hoax        #
+    # task:                  #
+    ##########################
+
+    ##########################
+    # Workplace: Luka        #
+    # task:                  #
+    ##########################
