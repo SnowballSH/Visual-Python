@@ -1,4 +1,3 @@
-  
 # Main Writer for master branch
 
 
@@ -53,8 +52,8 @@ class Writer:
     # task: built-in funcs   #
     ##########################
 
-    #Added r to \n because it prints a newline, not add the \n
-    #We still cannot print vars, and i dunno how to do that.
+    # Added r to \n because it prints a newline, not add the \n
+    # We still cannot print vars, and i dunno how to do that.
     def print_(self, *args, end=r'\n', sep=' '):
         thing = sep.join([str(w) for w in args])
         self.f.write(f'print("{thing}",end="{end}")\n')
@@ -63,29 +62,29 @@ class Writer:
     # Workplace: Hoax        #
     # task: var assignments  #
     ##########################
-    
-    #str, int, float, bool - 4 vartypes, automatically, its string
-    #always accepts strings as input, even if its a int or a boolean
-    def assignVar(self, varName, varValue, varType='str'):
-        if varType == 'str':
-            self.f.write(f'{varName} = "{varValue}"\n')
-        elif varType == 'int':
+
+    # str, int, float, bool - 4 var types, automatically, its string
+    # always accepts strings as input, even if its a int or a boolean
+
+    def assign_var(self, var_name, var_value, var_type='str'):
+        if var_type == 'str':
+            self.f.write(f'{var_name} = "{var_value}"\n')
+        elif var_type == 'int':
             try:
-                int(varValue)
-                self.f.write(f'{varName} = {varValue}\n')
+                int(var_value)
+                self.f.write(f'{var_name} = {var_value}\n')
             except:
                 raise TypeError("Variable value is not a integer")
-        elif varType == 'float':
-            float(varValue)
-            self.f.write(f'{varName} = {varValue}\n')
+        elif var_type == 'float':
+            float(var_value)
+            self.f.write(f'{var_name} = {var_value}\n')
 
-        elif varType == 'bool':
-            if varValue not in ["True", "False"]:
+        elif var_type == 'bool':
+            if var_value not in ["True", "False"]:
                 raise TypeError("Variable value is not a boolean")
             else:
-                self.f.write(f'{varName} = {varValue.title()}\n')
-            
-    
+                self.f.write(f'{var_name} = {var_value.title()}\n')
+
     ##########################
     # Workplace: Luka        #
     # task:                  #
