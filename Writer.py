@@ -12,61 +12,6 @@ def all_(*args):
     return f"all({i})"
 
 
-# Operators by Luka
-
-
-def gt_(self, number, number0):
-    self.f.write(f'{number} > {number0} \n')
-
-
-def lt_(self, number, number0):
-    self.f.write(f'{number} < {number0} \n')
-
-
-def gte(self, number, number0):
-    self.f.write(f'{number} >= {number0}  \n')
-
-
-def lte(self, number, number0):
-    self.f.write(f'{number} <= {number0}  \n')
-
-
-def e(self, number, number0):
-    self.f.write(f'{number} == {number0}  \n')
-
-
-def summing(self, number, number0):
-    self.f.write(f'{number} + {number0} \n')
-
-
-def substitute(self, number, number0):
-    self.f.write(f'{number} - {number0} \n')
-
-
-def multiply(self, number, number0):
-    self.f.write(f'{number} * {number0} \n')
-
-
-def divide(self, number, number0):
-    self.f.write(f'{number} / {number0} \n')
-
-
-def divideWithIntegralResult(self, number, number0):
-    self.f.write(f'{number} // {number0} \n')
-
-
-def modulus(self, number, number0):
-    self.f.write(f'{number} % {number0} \n')
-
-
-def anding(self, input0, input1):
-    self.f.write(f'{input0} and {input1} \n')
-
-
-def oring(self, input0, input1):
-    self.f.write(f'{input0} or {input1} \n')
-
-
 class Writer:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -141,3 +86,42 @@ class Writer:
     # Workplace: Luka        #
     # task: Operators        #
     ##########################
+
+    def gt_(self, number, number0):
+        self.f.write(f'{number} > {number0} \n')
+
+    def lt_(self, number, number0):
+        self.f.write(f'{number} < {number0} \n')
+
+    def gte(self, number, number0):
+        self.f.write(f'{number} >= {number0}  \n')
+
+    def lte(self, number, number0):
+        self.f.write(f'{number} <= {number0}  \n')
+
+    def e(self, number, number0):
+        self.f.write(f'{number} == {number0}  \n')
+
+    def summing(self, number, number0):
+        self.f.write(f'{number} + {number0} \n')
+
+    def substitute(self, number, number0):
+        self.f.write(f'{number} - {number0} \n')
+
+    def multiply(self, number, number0):
+        self.f.write(f'{number} * {number0} \n')
+
+    def divide(self, number, number0):
+        self.f.write(f'{number} / {number0} \n')
+
+    def divideWithIntegralResult(self, number, number0):
+        self.f.write(f'{number} // {number0} \n')
+
+    def modulus(self, number, number0):
+        self.f.write(f'{number} % {number0} \n')
+
+    def anding(self, input0, input1):
+        self.f.write(f'{input0} and {input1} \n')
+
+    def oring(self, input0, input1):
+        self.f.write(f'{input0} or {input1} \n')
