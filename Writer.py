@@ -1,5 +1,72 @@
 # Main Writer for master branch
 
+# builtin funcs
+
+
+def abs_(i):
+    return f"abs({i})"
+
+
+def all_(*args):
+    i = ", ".join(args)
+    return f"all({i})"
+
+    # Operators
+
+    # operators
+
+
+def gt_(self, number, number0):
+    self.f.write(f'{number} > {number0} \n')
+
+
+def lt_(self, number, number0):
+    self.f.write(f'{number} < {number0} \n')
+
+
+def gte(self, number, number0):
+    self.f.write(f'{number} >= {number0}  \n')
+
+
+def lte(self, number, number0):
+    self.f.write(f'{number} <= {number0}  \n')
+
+
+def e(self, number, number0):
+    self.f.write(f'{number} == {number0}  \n')
+
+
+def summing(self, number, number0):
+    self.f.write(f'{number} + {number0} \n')
+
+
+def substitute(self, number, number0):
+    self.f.write(f'{number} - {number0} \n')
+
+
+def multiply(self, number, number0):
+    self.f.write(f'{number} * {number0} \n')
+
+
+def divide(self, number, number0):
+    self.f.write(f'{number} / {number0} \n')
+
+
+def divideWithIntegralResult(self, number, number0):
+    self.f.write(f'{number} // {number0} \n')
+
+
+def modulus(self, number, number0):
+    self.f.write(f'{number} % {number0} \n')
+
+
+def anding(self, input0, input1):
+    self.f.write(f'{input0} and {input1} \n')
+
+
+def oring(self, input0, input1):
+    self.f.write(f'{input0} or {input1} \n')
+
 
 class Writer:
     def __init__(self, file_path):
@@ -51,16 +118,11 @@ class Writer:
 
     # Added r to \n because it prints a newline, not add the \n
     # [We still cannot print vars, and i dunno how to do that.] Fixed by Snowball
-
-    def print_(self, *args, end=r'\n', sep=' '):
-        thing = sep.join([str(w) for w in args])
-        self.f.write(f'print("{thing}", end="{end}")\n')
-
     def print_(self, *args, end=None, sep=' '):
         thing = ", ".join(args)
         self.f.write(
-            f'print({thing}' + str(f", end={end}" if end is not None else "") + str(f", sep={sep}" if sep != ' ' else "") + ")\n")
-
+            f'print({thing}' + str(f", end={end}" if end is not None else "") + str(
+                f", sep={sep}" if sep != ' ' else "") + ")\n")
 
     ##########################
     # Workplace: Hoax        #
@@ -80,56 +142,3 @@ class Writer:
     # Workplace: Luka        #
     # task: Operators        #
     ##########################
-
-    #operators
-    def gt_(self,number,number0):
-        self.f.write(f'{number} > {number0} \n')
-        
-    def lt_(self,number,number0):
-        self.f.write(f'{number} < {number0} \n')
-
-    def gte(self,number,number0):
-        self.f.write(f'{number} >= {number0}  \n')
-        
-    def lte(self,number,number0):
-        self.f.write(f'{number} <= {number0}  \n')
-
-    def e(self,number,number0):
-        self.f.write(f'{number} == {number0}  \n')
-        
-
-    def summing(self , number,number0):
-        self.f.write(f'{number} + {number0} \n')
-
-    def substitute(self , number, number0):
-        self.f.write(f'{number} - {number0} \n')
-
-    def multiply(self , number,number0):
-        self.f.write(f'{number} * {number0} \n')
-
-    def divide(self , number, number0):
-        self.f.write(f'{number} / {number0} \n')
-        
-    def divideWithIntegralResult(self , number , number0):
-        self.f.write(f'{number} // {number0} \n')
-
-    def modulus(self , number, number0):
-        self.f.write(f'{number} % {number0} \n')
-        
-
-    def anding(self , input0, input1):
-        self.f.write(f'{input0} and {input1} \n')
-
-    def oring(self , input0, input1):
-        self.f.write(f'{input0} or {input1} \n')
-
-
-
-
-
-
-
-
-
-
-    
