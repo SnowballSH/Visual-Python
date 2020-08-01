@@ -10,7 +10,7 @@ class Writer:
 
         self.append_file = self.f = open(file_path, "a")
 
-        self.vars = []
+        self.vars = None
 
     def close(self):
         # Close the file
