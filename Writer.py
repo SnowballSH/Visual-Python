@@ -63,36 +63,10 @@ class Writer:
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
 
-    def assign_var(self, var_name, var_value, var_type=None):
-        if var_type is None:
-            type_, value = self.deter_type(var_value)
-        else:
-            type_ = var_type
-            if var_type == 'str':
-                value = str(var_value)
-            elif var_type == 'int':
-                try:
-                    int(var_value)
-                    value = int(var_value)
-                except:
-                    raise TypeError("Variable value is not a integer")
-            elif var_type == 'float':
-                float(var_value)
-                value = float(var_value)
-                self.f.write(f'{var_name} = {var_value}\n')
+    # var_value must be in '"2"' if string form when input!
 
-            elif var_type == 'bool':
-                if var_value not in ["True", "False"]:
-                    raise TypeError("Variable value is not a boolean")
-                else:
-                    value = bool(var_value)
-
-            else:
-                value = None
-
-        if type_ == 'str':
-            value = f'"{value}"'
-
+    def assign_var(self, var_name, var_value):
+        type_, value = self.deter_type(var_value)
         self.f.write(f'{var_name}: {type_} = {value}\n')
 
     ##########################
