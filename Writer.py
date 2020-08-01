@@ -26,7 +26,7 @@ class Writer:
 
     '''
     def print(self, *args):
-        thing = " ".join([str(w) for w in args])
+        thing = " ".join([w for w in args])
         self.f.write(f'print("{thing}")')
     '''
 
