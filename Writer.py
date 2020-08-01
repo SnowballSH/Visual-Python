@@ -50,7 +50,7 @@ class Writer:
     ##########################
 
     # Added r to \n because it prints a newline, not add the \n
-    # We still cannot print vars, and i dunno how to do that.
+    # [We still cannot print vars, and i dunno how to do that.] Fixed by Snowball
     def print_(self, *args, end=r'\n', sep=' '):
         thing = sep.join([str(w) for w in args])
         self.f.write(f'print("{thing}", end="{end}")\n')
@@ -71,5 +71,5 @@ class Writer:
 
     ##########################
     # Workplace: Luka        #
-    # task:                  #
+    # task: Operators        #
     ##########################
