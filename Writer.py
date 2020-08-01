@@ -17,7 +17,7 @@ def all_(*args):
     return f"all({i})"
 
 
-# operators
+# operators by Luka
 
 ##########################
 # Workplace: Luka        #
