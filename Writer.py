@@ -119,7 +119,6 @@ class Writer:
     # task: compiler program #
     ##########################
 
-    # Added r to \n because it prints a newline, not add the \n
     # [We still cannot print vars, and i dunno how to do that.] Fixed by Snowball
     def print_(self, *args, end=None, sep=' '):
         thing = ", ".join(args)
