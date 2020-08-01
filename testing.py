@@ -1,6 +1,6 @@
 import Writer
 
-w = Writer.Writer("try.py")
+w = Writer.Writer("test.py")
 
 w.print("Hello", "World!")
 

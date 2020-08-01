@@ -32,7 +32,7 @@ class Writer:
     # In the running file:
     '''
     import Writer
-    w = Writer.Writer("try.py")
+    w = Writer.Writer("test.py")
     w.print("Hello", "World!")
     w.close()
     '''
@@ -43,18 +43,18 @@ class Writer:
     '''
 
     ##########################
-    # Workplace: SnowballSH  #
-    # task:                  #
+    # Workplace: 12944qwerty #
+    # task: compiler program #
     ##########################
 
     ##########################
-    # Workplace: 12944qwerty #
+    # Workplace: SnowballSH  #
     # task: built-in funcs   #
     ##########################
 
-    def print(self, *args):
-        thing = " ".join([str(w) for w in args])
-        self.f.write(f'print("{thing}")')
+    def print_(self, *args, end='\n', sep=' '):
+        thing = sep.join([str(w) for w in args])
+        self.f.write(f'print("{thing}",end="{end}")\n')
 
     ##########################
     # Workplace: Hoax        #
