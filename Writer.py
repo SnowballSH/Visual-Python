@@ -24,55 +24,55 @@ def all_(*args):
 # task: Operators        #
 ##########################
 
-def gt_(self, number, number0):
+def gt_(number, number0):
     return f'{number} > {number0}'
 
 
-def lt_(self, number, number0):
+def lt_(number, number0):
     return f'{number} < {number0}'
 
 
-def gte(self, number, number0):
+def gte(number, number0):
     return f'{number} >= {number0}'
 
 
-def lte(self, number, number0):
+def lte(number, number0):
     return f'{number} <= {number0}'
 
 
-def e(self, number, number0):
+def e(number, number0):
     return f'{number} == {number0}'
 
 
-def summing(self, number, number0):
+def summing(number, number0):
     return f'{number} + {number0}'
 
 
-def substitute(self, number, number0):
+def substitute(number, number0):
     return f'{number} - {number0}'
 
 
-def multiply(self, number, number0):
+def multiply(number, number0):
     return f'{number} * {number0}'
 
 
-def divide(self, number, number0):
+def divide(number, number0):
     return f'{number} / {number0}'
 
 
-def divideWithIntegralResult(self, number, number0):
+def divideWithIntegralResult(number, number0):
     return f'{number} // {number0}'
 
 
-def modulus(self, number, number0):
+def modulus(number, number0):
     return f'{number} % {number0}'
 
 
-def anding(self, input0, input1):
+def anding(input0, input1):
     return f'{input0} and {input1}'
 
 
-def oring(self, input0, input1):
+def oring(input0, input1):
     return f'{input0} or {input1}'
 
 
