@@ -142,6 +142,13 @@ class Writer:
             f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
                 f", sep={sep}" if sep != ' ' else "") + ")\n")
 
+    def if_(self, statement):
+        self.write(f"if {statement}:\n")
+        self.update_tab(self.tab + 1)
+
+    def end_if(self):
+        self.update_tab(self.tab - 1)
+
     ##########################
     # Workplace: Hoax        #
     # task: var assignments  #
