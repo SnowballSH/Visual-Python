@@ -137,7 +137,7 @@ class Writer:
         return 'str', value
         
     """
-
+    
     def write(self, string):
         self.f.write(self.tab_str + string)
 
@@ -151,8 +151,13 @@ class Writer:
         self.write(f"if {statement}:\n")
         self.update_tab(self.tab + 1)
 
-    def end_if(self):
+    def end_tab(self):
         self.update_tab(self.tab - 1)
+
+    def while_(self, statement):
+        self.write(f"while {statement}:\n")
+        self.update_tab(self.tab+1)
+        
 
     ##########################
     # Workplace: Hoax        #

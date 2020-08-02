@@ -18,7 +18,13 @@ w.assign_var("boolVar", Wt.gt_(3, 4))
 
 w.if_(Wt.all_(Wt.lte(-2, 8), Wt.e("intVar", 15)))
 w.print_("boolVar")
-w.end_if()
 w.print_("'Hello'", "'World!'", sep="'$^%'")
+
+w.while_(Wt.gt_(5,6))
+w.print_("'Hello There'")
+w.end_tab()
+w.print_("'Good There'")
+w.end_tab()
+w.print_("'Goodbye There'")
 
 w.close()
