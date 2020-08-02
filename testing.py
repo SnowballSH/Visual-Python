@@ -6,7 +6,7 @@ import Writer as Wt
 
 w = Wt.Writer("test.py")
 
-w.print_("'Hello'", "'World!'", sep="'|'")
+w.print_("'Hello'", "'World!'", "5", sep="'|'")
 
 # Testing my var assignment
 
@@ -27,4 +27,7 @@ w.print_("'Good There'")
 w.end_tab()
 w.print_("'Goodbye There'")
 
+w.functions("FirstFunction","Hello","there")
+w.return_("'World!'","print")
+w.end_tab()
 w.close()

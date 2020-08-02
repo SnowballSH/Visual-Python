@@ -146,19 +146,29 @@ class Writer:
         self.write(
             f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
                 f", sep={sep}" if sep != ' ' else "") + ")\n")
-
-    def if_(self, statement):
-        self.write(f"if {statement}:\n")
-        self.update_tab(self.tab + 1)
-
+        
     def end_tab(self):
         self.update_tab(self.tab - 1)
 
+    def if_(self, statement):
+        self.write(f'if {statement}:\n')
+        self.update_tab(self.tab + 1)
+
     def while_(self, statement):
-        self.write(f"while {statement}:\n")
+        self.write(f'while {statement}:\n')
         self.update_tab(self.tab+1)
         
+    def functions(self, name, *args):
+        arguments= ", ".join(args)
+        self.write(f'def {name}({arguments}):\n')
+        self.update_tab(self.tab+1)
 
+    def return_(self, output, functionName=""):
+        self.write(f'return {output}\n' if functionName=="" else f'return {functionName}({output})\n')
+
+
+        
+        
     ##########################
     # Workplace: Hoax        #
     # task: var assignments  #
