@@ -21,6 +21,12 @@ def any_(*args):
     i = ", ".join(args)
     return f"any(({i}))"
 
+def range_(start, stop="", step=""):
+    return f'range({start})' if stop=="" else f'range({start},{stop})' if step=="" else f'range({start},{stop},{step})'
+
+def enum(sequence, start=""):
+    return f'enumerate({sequence})' if start=="" else f'enumerate({sequence},{start})'
+
 
 # operators
 
