@@ -14,7 +14,12 @@ def abs_(i):
 
 def all_(*args):
     i = ", ".join(args)
-    return f"all({i})"
+    return f"all(({i}))"
+
+
+def any_(*args):
+    i = ", ".join(args)
+    return f"any(({i}))"
 
 
 # operators
