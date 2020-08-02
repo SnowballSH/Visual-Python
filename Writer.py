@@ -96,10 +96,20 @@ class Writer:
 
     @staticmethod
     def deter_type(string):
+        value = eval(string)
+        type_ = type(value).__name__
+        return type_, string
+
+    """
+    @staticmethod
+    def safe_deter_type(string):
         value = string
 
+        if any([(a in string) for a in "+,-,*,/,//,%".split(",")]):
+            return 'float', value
+
         if '.' in string:
-            if string.replace('.', '', 1).isdigit():
+            if string.replace('.', '', 1).replace('-', '', 1).isdigit():
                 value = float(string)
                 return 'float', value
 
@@ -109,10 +119,12 @@ class Writer:
         except ValueError:
             pass
 
-        if string in ["True", "False"]:
+        if string in ["True", "False"] or any([a in string for a in ">,<,>=,<=,==,and,or".split(",")]):
             return 'bool', value
 
         return 'str', value
+        
+    """
 
     def write(self, string):
         self.f.write(string)
