@@ -150,7 +150,7 @@ class Writer:
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
 
-    # var_value must be in '"2"' if string form when input!
+    # var_value must be in '"2"' form if string form when input!
 
     def assign_var(self, var_name, var_value):
         type_, value = self.deter_type(var_value)
