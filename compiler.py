@@ -9,16 +9,24 @@ import time
 gen = Writer("test.py")
 blocks = json.load(open("blocks.json", 'r'))
 
-for block, attrs in blocks.items():
-    if 'print' in block:
-        args = attrs['args']
-        end = '\\n'
-        sep = ' '
-        if 'end' in attrs:
-            end = attrs['end'].replace('\n', '\\n')
-        if 'sep' in attrs:
-            sep = attrs['sep']
-        gen.print_(*args, end=end, sep=sep)
+def parse(blocks):
+    for block, attrs in blocks.items():
+        if 'print' in block:
+            args = attrs['args']
+            end = "'\\n'"
+            sep = ' '
+            if 'end' in attrs:
+                end = attrs['end'].replace('\n', '\\n')
+            if 'sep' in attrs:
+                sep = attrs['sep']
+            gen.print_(*args, end=end, sep=sep)
+        if 'if' in block:
+            conditional = attrs['condition']
+            gen.if_(conditional)
+            parse(attrs['blocks'])
+            gen.end_if()
+
+parse(blocks)
 
 gen.close()
 

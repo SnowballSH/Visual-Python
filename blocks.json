@@ -1,9 +1,37 @@
 {
-  "print": {
+  "print1": {
     "args": [
       "3",
       "'H'"
     ],
-    "end": "'!'"
+    "end": "'!\n'"
+  },
+  "if1": {
+    "condition": "4 > 3",
+    "blocks": {
+      "print2": {
+        "args": [
+          "'new'",
+          "'line'",
+          "3"
+        ]
+      },
+      "if2": {
+        "condition": "3 < 2",
+        "blocks": {
+          "print3": {
+            "args": [
+              "'new'",
+              "'3'"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "print4": {
+    "args": [
+      "'outside nesting'"
+    ]
   }
 }
