@@ -30,4 +30,4 @@ print(divider)
 
 os.system('python test.py')
 
-print(divider)
+print("\n" + divider)
