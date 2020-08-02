@@ -86,6 +86,9 @@ class Writer:
 
         self.vars = None
 
+        self.tab = 0
+        self.tab_str = ""
+
     def close(self):
         # Close the file
         self.append_file.close()
@@ -93,6 +96,10 @@ class Writer:
     def clear(self):
         with open(self.file_path, "w") as f:
             f.write("")
+
+    def update_tab(self, amount=0):
+        self.tab = amount
+        self.tab_str = " " * 4 * amount
 
     @staticmethod
     def deter_type(string):
@@ -127,17 +134,11 @@ class Writer:
     """
 
     def write(self, string):
-        self.f.write(string)
+        self.f.write(self.tab_str + string)
 
-    ##########################
-    # Workplace: 12944qwerty #
-    # task: compiler program #
-    ##########################
-
-    # [We still cannot print vars, and i dunno how to do that.] Fixed by Snowball
     def print_(self, *args, end=None, sep=' '):
         thing = ', '.join(args)
-        self.f.write(
+        self.write(
             f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
                 f", sep={sep}" if sep != ' ' else "") + ")\n")
 
@@ -153,4 +154,4 @@ class Writer:
 
     def assign_var(self, var_name, var_value):
         type_, value = self.deter_type(var_value)
-        self.f.write(f'{var_name}: {type_} = {value}\n')
+        self.write(f'{var_name}: {type_} = {value}\n')
