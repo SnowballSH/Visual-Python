@@ -136,10 +136,10 @@ class Writer:
 
     # [We still cannot print vars, and i dunno how to do that.] Fixed by Snowball
     def print_(self, *args, end=None, sep=' '):
-        thing = "['"+"', '".join(args)+"']"
+        thing = ', '.join(args)
         self.f.write(
-            f"print(*{thing}" + str(f", end='{end}'" if end is not None else "") + str(
-                f", sep='{sep}'" if sep != ' ' else "") + ")\n")
+            f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
+                f", sep={sep}" if sep != ' ' else "") + ")\n")
 
     ##########################
     # Workplace: Hoax        #
