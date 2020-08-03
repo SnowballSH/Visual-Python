@@ -1,37 +1,17 @@
 {
-  "print1": {
-    "args": [
-      "3",
-      "'H'"
-    ],
-    "end": "'!\n'"
+  "comment": {
+    "comment": "This is a comment"
   },
-  "if1": {
-    "condition": "4 > 3",
+  "func1": {
+    "name": "add",
+    "args": ["num", "addition"],
     "blocks": {
-      "print2": {
-        "args": [
-          "'new'",
-          "'line'",
-          "3"
-        ]
-      },
-      "if2": {
-        "condition": "3 < 2",
-        "blocks": {
-          "print3": {
-            "args": [
-              "'new'",
-              "'3'"
-            ]
-          }
-        }
+      "return": {
+        "output": "num+addition"
       }
     }
   },
-  "print4": {
-    "args": [
-      "'outside nesting'"
-    ]
+  "eval": {
+    "statement": "print(add(3, 5))\n"
   }
 }
