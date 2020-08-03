@@ -1,7 +1,7 @@
 """
 This is the compiler file. It will take in the json file and use the Writer class to generate the end result.
 """
-from Writer import Writer
+from Writer import *
 import json
 import os
 import time
