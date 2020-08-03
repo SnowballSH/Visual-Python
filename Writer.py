@@ -22,6 +22,14 @@ def any_(*args):
     return f"any(({i}))"
 
 
+def range_(start, stop="", step=""):
+    return f'range({start})' if stop == "" else f'range({start},{stop})' if step == "" else f'range({start},{stop},{step})'
+
+
+def enum(sequence, start=""):
+    return f'enumerate({sequence})' if start == "" else f'enumerate({sequence},{start})'
+
+
 # operators
 
 ##########################
@@ -106,6 +114,12 @@ class Writer:
         self.tab = amount
         self.tab_str = " " * 4 * amount
 
+    def comment(self, text: str):
+        self.write("# " + text + "\n")
+
+    def blank(self, amount: int=1):
+        self.write("\n" * amount)
+
     @staticmethod
     def deter_type(string):
         value = eval(string)
@@ -138,26 +152,36 @@ class Writer:
         
     """
 
-    def write(self, string):
-        self.f.write(self.tab_str + string)
+    def write(self, string, no_tab=False):
+        ts = self.tab_str if not no_tab else ""
+        self.f.write(ts + string)
 
-    def print_(self, *args, end=None, sep=' '):
+    def print_(self, *args, end=None, sep=' ', write=True):
         thing = ', '.join(args)
-        self.write(
-            f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
-                f", sep={sep}" if sep != ' ' else "") + ")\n")
+        p = f"print({thing}" + str(f", end={end}" if end is not None else "") + str(
+            f", sep={sep}" if sep != ' ' else "") + ")\n"
+        if write:
+            self.write(p)
+        return p
 
-    def if_(self, statement):
-        self.write(f"if {statement}:\n")
-        self.update_tab(self.tab + 1)
-
-    def end_if(self):
+    def end_tab(self):
         self.update_tab(self.tab - 1)
 
-    ##########################
-    # Workplace: Hoax        #
-    # task: var assignments  #
-    ##########################
+    def if_(self, statement):
+        self.write(f'if {statement}:\n')
+        self.update_tab(self.tab + 1)
+
+    def while_(self, statement):
+        self.write(f'while {statement}:\n')
+        self.update_tab(self.tab + 1)
+
+    def functions(self, name, *args):
+        arguments = ", ".join(args)
+        self.write(f'def {name}({arguments}):\n')
+        self.update_tab(self.tab + 1)
+
+    def return_(self, output):
+        self.write(f'return {output}\n')
 
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
