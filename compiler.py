@@ -9,6 +9,7 @@ import time
 gen = Writer("test.py")
 blocks = json.load(open("blocks.json", 'r'))
 
+
 def parse(blocks):
     for block, attrs in blocks.items():
         if 'print' in block:
@@ -44,8 +45,9 @@ def parse(blocks):
         if 'comment' in block:
             gen.comment(attrs['comment'])
 
-        if 'eval' in block: # DEVELOPMENT PURPOSES ONLY
+        if 'eval' in block:  # DEVELOPMENT PURPOSES ONLY
             gen.write(attrs["statement"])
+
 
 parse(blocks)
 
@@ -55,8 +57,8 @@ divider = ['-' for _ in range(180)]
 print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
 
 time.sleep(2.0)
-print(*divider,'\n',sep='')
+print(*divider, '\n', sep='')
 
 os.system('python test.py')
 
-print('\n',*divider,sep='')
+print('\n', *divider, sep='')
