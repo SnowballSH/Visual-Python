@@ -4,5 +4,7 @@
 
 import pygame
 import compiler
-json = compiler.json
 
+# use modules from compiler so it doesn't need to be imported again
+json = compiler.json
+os = compiler.os

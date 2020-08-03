@@ -4,7 +4,6 @@ This is the compiler file. It will take in the json file and use the Writer clas
 from Writer import Writer
 import json
 import os
-import time
 
 gen = Writer("test.py")
 blocks = json.load(open("blocks.json", 'r'))
@@ -50,6 +49,8 @@ def parse(blocks):
 
 
 def test_case():
+    from time import sleep
+
     parse(blocks)
 
     gen.close()
@@ -57,7 +58,7 @@ def test_case():
     divider = ['-' for _ in range(180)]
     print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
 
-    time.sleep(2.0)
+    sleep(2.0)
     print(*divider, '\n', sep='')
 
     os.system('python test.py')
@@ -65,4 +66,4 @@ def test_case():
     print('\n', *divider, sep='')
 
 
-test_case()
+# test_case()
