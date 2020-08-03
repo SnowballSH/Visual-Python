@@ -4,10 +4,10 @@ This is the compiler file. It will take in the json file and use the Writer clas
 from Writer import *
 import json
 import os
-import time
 
 gen = Writer("test.py")
 blocks = json.load(open("blocks.json", 'r'))
+
 
 def parse(blocks):
     for block, attrs in blocks.items():
@@ -44,19 +44,26 @@ def parse(blocks):
         if 'comment' in block:
             gen.comment(attrs['comment'])
 
-        if 'eval' in block: # DEVELOPMENT PURPOSES ONLY
+        if 'eval' in block:  # DEVELOPMENT PURPOSES ONLY
             gen.write(attrs["statement"])
 
-parse(blocks)
 
-gen.close()
+def test_case():
+    from time import sleep
 
-divider = ['-' for _ in range(180)]
-print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
+    parse(blocks)
 
-time.sleep(2.0)
-print(*divider,'\n',sep='')
+    gen.close()
 
-os.system('python test.py')
+    divider = ['-' for _ in range(180)]
+    print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
 
-print('\n',*divider,sep='')
+    sleep(2.0)
+    print(*divider, '\n', sep='')
+
+    os.system('python test.py')
+
+    print('\n', *divider, sep='')
+
+
+# test_case()

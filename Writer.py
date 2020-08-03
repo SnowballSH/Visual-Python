@@ -117,14 +117,17 @@ class Writer:
     def comment(self, text: str):
         self.write("# " + text + "\n")
 
-    def blank(self, amount: int=1):
+    def blank(self, amount: int = 1):
         self.write("\n" * amount)
 
     @staticmethod
     def deter_type(string):
-        value = eval(string)
-        type_ = type(value).__name__
-        return type_, string
+        try:
+            value = eval(string)
+            type_ = type(value).__name__
+            return type_, string
+        except NameError:
+            return None, string
 
     """
     @staticmethod
@@ -183,6 +186,10 @@ class Writer:
     def return_(self, output):
         self.write(f'return {output}\n')
 
+    def callFunction(self, name, *args):
+        arguments = ", ".join(args)
+        self.write(f'{name}({arguments})')
+
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
 
@@ -190,4 +197,4 @@ class Writer:
 
     def assign_var(self, var_name, var_value):
         type_, value = self.deter_type(var_value)
-        self.write(f'{var_name}: {type_} = {value}\n')
+        self.write(f'{var_name}{f": {type_}" if type_ is not None else ""} = {value}\n')
