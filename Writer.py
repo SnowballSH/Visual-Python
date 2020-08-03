@@ -183,6 +183,10 @@ class Writer:
     def return_(self, output):
         self.write(f'return {output}\n')
 
+    def callFunction(self, name, *args):
+        arguments = ", ".join(args)
+        self.write(f'{name}({arguments})')
+
     # str, int, float, bool - 4 var types, automatically, its string
     # always accepts strings as input, even if its a int or a boolean
 

@@ -39,5 +39,5 @@ w.return_(w.print_("'Idk why you return a print'", "'but ok'", "'Because you can
 w.end_tab()
 w.blank()
 w.print_("my_func(intVar)")
-
+w.callFunction("my_Func", "jsjm", "'jsjsj'" ,"4")
 w.close()
