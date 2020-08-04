@@ -15,7 +15,7 @@ w.blank()
 w.assign_var("stringVar", "'Hello!!'")
 w.assign_var("stringVar2", "'5'")
 w.assign_var("intVar", "5 * 3")
-w.assign_var("floatVar", "5.2 + 3/2")
+w.assign_var("floatVar", Wt.summing("intVar","20"))
 w.assign_var("boolVar", Wt.gt_(3, 4))
 
 w.blank(2)
