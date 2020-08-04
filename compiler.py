@@ -43,6 +43,10 @@ def parse(blocks):
             gen.assign_var(attrs['name'], attrs['value'])
         if 'comment' in block:
             gen.comment(attrs['comment'])
+        if 'invoke' in block:
+            func = attrs['function']
+            args = attrs['args']
+            gen.callFunction(func, *args)
 
         if 'eval' in block:  # DEVELOPMENT PURPOSES ONLY
             gen.write(attrs["statement"])
@@ -66,4 +70,4 @@ def test_case():
     print('\n', *divider, sep='')
 
 
-# test_case()
+test_case()
