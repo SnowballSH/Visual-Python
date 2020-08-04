@@ -15,8 +15,10 @@ w.blank()
 w.assign_var("stringVar", "'Hello!!'")
 w.assign_var("stringVar2", "'5'")
 w.assign_var("intVar", "5 * 3")
-w.assign_var("floatVar", Wt.summing("intVar","20"))
+w.assign_var("floatVar", "5.2 + 3/2")
+w.assign_var("var_var", "intVar + floatVar")
 w.assign_var("boolVar", Wt.gt_(3, 4))
+
 
 w.blank(2)
 
@@ -35,9 +37,9 @@ w.print_("'Goodbye There'")
 w.blank(2)
 w.functions("my_func", "int_: int")
 w.print_("int_")
-w.return_(w.print_("'Idk why you return a print'", "'but ok'", "'Because you can do it in Python'", "'So we must be able to do it'", end="'...\\n'", write=False))
+w.return_(w.print_("'Idk why you return a print'", "'but ok'", end="'...\\n'", write=False))
 w.end_tab()
 w.blank()
 w.print_("my_func(intVar)")
-w.callFunction("my_Func", "jsjm", "'jsjsj'" ,"4")
+
 w.close()

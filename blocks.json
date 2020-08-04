@@ -4,14 +4,24 @@
   },
   "func1": {
     "name": "add",
-    "args": ["num", "addition"],
+    "args": ["num"],
     "blocks": {
+      "var1": {
+        "name": "addition",
+        "value": "2"
+      },
+      "var2": {
+        "name": "addition",
+        "value": "addition+2"
+      },
       "return": {
         "output": "num+addition"
       }
     }
   },
-  "eval": {
-    "statement": "print(add(3, 5))\n"
+  "print": {
+    "args": [
+      "add(3)"
+    ]
   }
 }
