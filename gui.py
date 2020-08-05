@@ -19,7 +19,10 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-BLOCK_FONT = pygame.font.SysFont("lemon", 25)
+GREY = (198, 214, 198)
+
+BLOCK_FONT = pygame.font.SysFont("lemon", 20)
+OPTION_FONT = pygame.font.SysFont("lemon", 13)
 
 
 class Block:
@@ -47,10 +50,10 @@ class FunctionOptions:
         self.colour = colour
         self.x = x
         self.y = y
-        self.w = 120
-        self.h = 25
+        self.w = 150
+        self.h = 30
 
-        self.text = BLOCK_FONT.render(name, True, BLACK)
+        self.text = OPTION_FONT.render(name, True, BLACK)
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
     def draw(self, win):
@@ -87,7 +90,7 @@ class Tree:
 
 def main():
     def draw():
-        win.fill(BLUE)
+        win.fill(GREY)
 
         # TEST
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
