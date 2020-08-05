@@ -39,7 +39,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    win = pygame.display.set_mode((width, height), RESIZABLE)
+    win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
     while run:
