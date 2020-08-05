@@ -56,6 +56,20 @@ class TextInput:
         pygame.draw.ellipse(win, WHITE, (self.x, self.y, self.w, self.h))
 
 
+class Tree:
+    def __init__(self):
+        self.blocks = []
+        self.len = len(self.blocks)
+
+    def append(self, block: Block):
+        self.blocks.append(block)
+        self.len = len(self.blocks)
+
+    def remove(self, block: Block):
+        self.blocks.remove(block)
+        self.len = len(self.blocks)
+
+
 def main():
     def draw():
         win.fill(BLUE)
@@ -63,7 +77,7 @@ def main():
         # TEST
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
 
-        for b in blocks:
+        for b in tree.blocks:
             b.draw(win)
 
         pygame.display.update()
@@ -76,7 +90,10 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
-    blocks = [Block(50, 50, GREEN, "output", "print"), Block(50, 120, GREEN, "map", "map")]
+    tree = Tree()
+
+    tree.append(Block(50, 50, GREEN, "output", "print"))
+    tree.append(Block(50, 120, RED, "sum", "sum"))
 
     while run:
         clock.tick(FPS)
