@@ -21,7 +21,7 @@ BLUE = (0, 0, 255)
 
 GREY = (198, 214, 198)
 
-SEA_GREEN = (0,255,197)
+SEA_GREEN = (0, 255, 197)
 
 BLOCK_FONT = pygame.font.SysFont("lemon", 20)
 OPTION_FONT = pygame.font.SysFont("lemon", 13)
@@ -46,6 +46,12 @@ class Block:
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
+    def clicked(self, pos):
+        x, y = pos
+        if self.x < x < self.x + self.w and self.y < y < self.y + self.h:
+            return True
+        return False
+
 
 class FunctionOptions:
     def __init__(self, x, y, colour, name):
@@ -62,6 +68,12 @@ class FunctionOptions:
         pygame.draw.rect(win, self.colour, (self.x, self.y, self.w, self.h))
         self.text_input.draw(win, False)
         win.blit(self.text, (self.x + 4, self.y + 4))
+
+    def clicked(self, pos):
+        x, y = pos
+        if self.x < x < self.x + self.w and self.y < y < self.y + self.h:
+            return True
+        return False
 
 
 class TextInput:
@@ -133,12 +145,12 @@ def main():
         clock.tick(FPS)
         draw()
 
-        mx, my = pygame.mouse.get_pos()
-        if 170 > mx > 50 > my > 25 and pygame.mouse.get_pressed()[0]:
-            option = 0
-
-        if 200 < mx < 320 and 25 < my < 50 and pygame.mouse.get_pressed()[0]:
-            option = 1
+        if pygame.mouse.get_pressed()[0]:
+            pos = pygame.mouse.get_pos()
+            for i, o in enumerate(options.blocks):
+                if o.clicked(pos):
+                    option = i
+                    break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
