@@ -76,7 +76,7 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
-    blocks = [Block(50, 50, GREEN, "output", "print"), Block(50, 100, GREEN, "map", "map")]
+    blocks = [Block(50, 50, GREEN, "output", "print"), Block(50, 120, GREEN, "map", "map")]
 
     while run:
         clock.tick(FPS)
