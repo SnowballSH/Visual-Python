@@ -23,19 +23,17 @@ BLOCK_FONT = pygame.font.SysFont("lemon", 25)
 
 
 class Block:
-    GAP = 20
 
-    def __init__(self, x, y, color, name, func):
+    def __init__(self, x, y, color, name, func = None):
         self.color = color
         self.x = x
         self.y = y
         self.w = 200
         self.h = 50
 
-        self.name = name
         self.func = func
 
-        self.text = BLOCK_FONT.render(self.name, True, BLACK)
+        self.text = BLOCK_FONT.render(name, True, BLACK)
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45,
                                     80, 40)
 
@@ -44,6 +42,21 @@ class Block:
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
+class functionOptions:
+    def __init__(self, x, y, colour, name):
+        self.colour = colour
+        self.x = x
+        self.y = y
+        self.w = 120
+        self.h = 25
+
+        self.text=BLOCK_FONT.render(name, True, BLACK)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
+
+    def draw(self, win):
+        pygame.draw.rect(win, self.colour, (self.x, self.y, self.w, self.h))
+        self.text_input.draw(win,False)
+        win.blit(self.text, (self.x + 4, self.y + 4))
 
 class TextInput:
     def __init__(self, x, y, w, h):
@@ -52,8 +65,9 @@ class TextInput:
         self.w = w
         self.h = h
 
-    def draw(self, win):
-        pygame.draw.ellipse(win, WHITE, (self.x, self.y, self.w, self.h))
+    def draw(self, win, drawRect=True):
+        if drawRect:
+            pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
 
 
 class Tree:
@@ -76,13 +90,19 @@ def main():
 
         # TEST
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
-
-        for b in tree.blocks:
+        #print(option)
+        if option == 0:
+            for b in tree.blocks:
+                b.draw(win)
+        elif option == 1:
+            for b in tree1.blocks:
+                b.draw(win)
+        for b in options.blocks:
             b.draw(win)
 
         pygame.display.update()
 
-    width, height = 800, 600
+    width, height = 1000, 600
 
     run = True
     clock = pygame.time.Clock()
@@ -92,12 +112,27 @@ def main():
 
     tree = Tree()
 
-    tree.append(Block(50, 50, GREEN, "output", "print"))
-    tree.append(Block(50, 120, RED, "sum", "sum"))
+    tree.append(Block(50, 100, GREEN, "output", "print"))
 
+    tree1=Tree()
+    tree1.append(Block(50, 150, RED, "sum", "sum"))
+
+    options = Tree()
+
+    options.append(functionOptions(40, 25, (100, 40, 255), "built-in-func"))
+    options.append(functionOptions(200, 25, (100, 40, 255), "operators"))
+
+    option = 0
     while run:
         clock.tick(FPS)
         draw()
+
+        mx, my = pygame.mouse.get_pos()
+        if 50 < mx < 170 and 25 < my < 50 and pygame.mouse.get_pressed()[0]:
+            option = 0
+
+        if 200<mx<320 and 25<my<50 and pygame.mouse.get_pressed()[0]:
+            option = 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
