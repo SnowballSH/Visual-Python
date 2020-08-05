@@ -49,7 +49,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.VIDEORESIZE:
+            elif event.type == pygame.VIDEORESIZE:
                 width, height, scrsize = event.w, event.h, event.size  # or event.w, event.h
                 win = pygame.display.set_mode(scrsize, RESIZABLE)
 
