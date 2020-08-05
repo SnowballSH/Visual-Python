@@ -25,19 +25,21 @@ class Block:
         self.y = y
 
     def draw(self, win):
-        win.blit(self.color, (self.x, self.y))
-
-
-def draw(win, width, height):
-    win.fill(BLUE)
-
-    # TEST
-    pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
-
-    pygame.display.update()
+        pygame.draw.rect(win, self.color, (self.x, self.y, 50, 30))
 
 
 def main():
+    def draw():
+        win.fill(BLUE)
+
+        # TEST
+        pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
+
+        for b in blocks:
+            b.draw(win)
+
+        pygame.display.update()
+
     width, height = 800, 600
 
     run = True
@@ -46,9 +48,11 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
+    blocks = [Block(50, 50, GREEN)]
+
     while run:
         clock.tick(FPS)
-        draw(win, width, height)
+        draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
