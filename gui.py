@@ -60,7 +60,6 @@ class FunctionOptions:
 
     def draw(self, win):
         pygame.draw.rect(win, self.colour, (self.x, self.y, self.w, self.h))
-        self.text_input.draw(win, False)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
 
@@ -71,9 +70,8 @@ class TextInput:
         self.w = w
         self.h = h
 
-    def draw(self, win, draw_rect=True):
-        if draw_rect:
-            pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
+    def draw(self, win):
+        pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
 
 
 class Tree:
