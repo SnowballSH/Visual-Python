@@ -7,6 +7,8 @@ import json
 import os
 from pygame.locals import *
 
+pygame.font.init()
+
 # Variables
 
 FPS = 120
@@ -17,15 +19,21 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+BLOCK_FONT = pygame.font.SysFont("lemon", 20)
+
 
 class Block:
-    def __init__(self, x, y, color):
+    def __init__(self, x, y, color, name, func):
         self.color = color
         self.x = x
         self.y = y
+        self.name = name
+        self.func = func
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, 50, 30))
+        pygame.draw.rect(win, self.color, (self.x, self.y, 150, 50))
+        text = BLOCK_FONT.render(self.name, True, BLACK)
+        win.blit(text, (self.x + 10, self.y + 10))
 
 
 def main():
@@ -48,7 +56,7 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
-    blocks = [Block(50, 50, GREEN)]
+    blocks = [Block(50, 50, GREEN, "output", "print")]
 
     while run:
         clock.tick(FPS)
