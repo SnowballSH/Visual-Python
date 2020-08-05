@@ -36,8 +36,8 @@ class Block:
         self.func = func
 
         self.text = BLOCK_FONT.render(self.name, True, BLACK)
-        self.text_input = TextInput(self.x + self.text.get_width() + 8, self.y + 4,
-                                    self.w - self.text.get_width() - self.GAP, self.h - 8)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45,
+                                    80, 40)
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.h))
@@ -76,7 +76,7 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
-    blocks = [Block(50, 50, GREEN, "output", "print")]
+    blocks = [Block(50, 50, GREEN, "output", "print"), Block(50, 100, GREEN, "map", "map")]
 
     while run:
         clock.tick(FPS)
