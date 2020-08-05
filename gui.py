@@ -19,21 +19,41 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-BLOCK_FONT = pygame.font.SysFont("lemon", 20)
+BLOCK_FONT = pygame.font.SysFont("lemon", 25)
 
 
 class Block:
+    GAP = 20
+
     def __init__(self, x, y, color, name, func):
         self.color = color
         self.x = x
         self.y = y
+        self.w = 200
+        self.h = 50
+
         self.name = name
         self.func = func
 
+        self.text = BLOCK_FONT.render(self.name, True, BLACK)
+        self.text_input = TextInput(self.x + self.text.get_width() + 8, self.y + 4,
+                                    self.w - self.text.get_width() - self.GAP, self.h - 8)
+
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, 150, 50))
-        text = BLOCK_FONT.render(self.name, True, BLACK)
-        win.blit(text, (self.x + 10, self.y + 10))
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.h))
+        self.text_input.draw(win)
+        win.blit(self.text, (self.x + 4, self.y + 4))
+
+
+class TextInput:
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+    def draw(self, win):
+        pygame.draw.ellipse(win, WHITE, (self.x, self.y, self.w, self.h))
 
 
 def main():
