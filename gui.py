@@ -5,6 +5,7 @@
 import pygame
 import json
 import os
+from pygame.locals import *
 
 os.environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % (80, 80)
 
@@ -37,17 +38,19 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    win = pygame.display.set_mode((800, 600))
+    win = pygame.display.set_mode((800, 600),RESIZABLE)
     pygame.display.set_caption("Code generator")
 
     while run:
         clock.tick(FPS)
-
         draw(win)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.VIDEORESIZE:
+                scrsize = event.size  # or event.w, event.h
+                win = pygame.display.set_mode(scrsize, RESIZABLE)
 
     pygame.quit()
 
