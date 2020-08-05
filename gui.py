@@ -28,8 +28,12 @@ class Block:
         win.blit(self.color, (self.x, self.y))
 
 
-def draw(win):
-    win.fill(WHITE)
+def draw(win, width, height):
+    win.fill(BLUE)
+
+    # TEST
+    pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
+
     pygame.display.update()
 
 
@@ -44,14 +48,14 @@ def main():
 
     while run:
         clock.tick(FPS)
-        draw(win)
+        draw(win, width, height)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.VIDEORESIZE:
-                width, height, scrsize = event.w, event.h, event.size  # or event.w, event.h
-                win = pygame.display.set_mode(scrsize, RESIZABLE)
+                width, height = event.w, event.h
+                win = pygame.display.set_mode((width, height), RESIZABLE)
 
     pygame.quit()
 
