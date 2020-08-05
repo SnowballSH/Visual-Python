@@ -23,6 +23,15 @@ def draw(win):
     win.fill(WHITE)
     pygame.display.update()
 
+class Block:
+    IMG = "" #PLACEHOLDER HERE
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def draw(self, win):
+        win.blit(self.IMG, (self.x, self.y))
 
 def main():
     run = True
