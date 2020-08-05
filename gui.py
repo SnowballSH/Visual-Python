@@ -55,7 +55,7 @@ def main():
                 run = False
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.w, event.h
-                win = pygame.display.set_mode((width, height), RESIZABLE)
+                win = pygame.display.set_mode((width, height), flags=RESIZABLE)
 
     pygame.quit()
 
