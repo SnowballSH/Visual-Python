@@ -21,6 +21,8 @@ BLUE = (0, 0, 255)
 
 GREY = (198, 214, 198)
 
+SEA_GREEN = (0,255,197)
+
 BLOCK_FONT = pygame.font.SysFont("lemon", 20)
 OPTION_FONT = pygame.font.SysFont("lemon", 13)
 
@@ -50,7 +52,7 @@ class FunctionOptions:
         self.colour = colour
         self.x = x
         self.y = y
-        self.w = 150
+        self.w = 120
         self.h = 30
 
         self.text = OPTION_FONT.render(name, True, BLACK)
@@ -96,10 +98,10 @@ def main():
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
         # print(option)
         if option == 0:
-            for b in tree.blocks:
+            for b in bif.blocks:
                 b.draw(win)
         elif option == 1:
-            for b in tree1.blocks:
+            for b in ope.blocks:
                 b.draw(win)
         for b in options.blocks:
             b.draw(win)
@@ -114,17 +116,17 @@ def main():
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)
     pygame.display.set_caption("Code generator")
 
-    tree = Tree()
+    bif = Tree()
 
-    tree.append(Block(50, 100, GREEN, "output", "print"))
+    bif.append(Block(50, 100, GREEN, "output", "print"))
 
-    tree1 = Tree()
-    tree1.append(Block(50, 150, RED, "sum", "sum"))
+    ope = Tree()
+    ope.append(Block(50, 100, RED, "sum", "sum"))
 
     options = Tree()
 
-    options.append(FunctionOptions(40, 25, (100, 40, 255), "built-in-func"))
-    options.append(FunctionOptions(200, 25, (100, 40, 255), "operators"))
+    options.append(FunctionOptions(40, 25, SEA_GREEN, "built-in-func"))
+    options.append(FunctionOptions(180, 25, SEA_GREEN, "operators"))
 
     option = 0
     while run:
