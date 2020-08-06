@@ -91,10 +91,11 @@ class TextInput:
     def draw(self, win):
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
 
-    def moving(self,win, x, y):
+    def moving(self, win, x, y):
         self.x = x
         self.y = y
         pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
+
 
 class Tree:
     def __init__(self):
@@ -108,6 +109,7 @@ class Tree:
     def remove(self, block):
         self.blocks.remove(block)
         self.len = len(self.blocks)
+
 
 def main():
     def draw():
@@ -167,11 +169,12 @@ def main():
         if pygame.mouse.get_pressed()[0]:
             x, y = pygame.mouse.get_pos()
             for i, o in enumerate(options.blocks):
-                if o.clicked((x,y)):
+                if o.clicked((x, y)):
                     option = i
                     break
 
-            #choosing blocks
+            # choosing blocks
+            a=None
             if option == 0:
                 a = bif.blocks
             elif option == 1:
@@ -179,13 +182,13 @@ def main():
 
             if not flying:
                 for i in a:
-                    if i.clicked((x,y)):
+                    if i.clicked((x, y)):
                         backup = i
                         moving.append(i)
                         flying = True
-            #I can't put it down and reset it at the choice menu
+            # I can't put it down and reset it at the choice menu
             ############################
-            #doesn't work
+            # doesn't work
             else:
                 if option == 0:
                     bif.append(backup)
