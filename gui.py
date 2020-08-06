@@ -174,7 +174,7 @@ def main():
                     break
 
             # choosing blocks
-            a=None
+            a = None
             if option == 0:
                 a = bif.blocks
             elif option == 1:
