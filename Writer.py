@@ -16,12 +16,62 @@ def all_(*args):
     i = ", ".join(args)
     return f"all(({i}))"
 
-
 def any_(*args):
     i = ", ".join(args)
     return f"any(({i}))"
 
+#####################################
+#Added this below - Hoax
+def bin_(i):
+    return f"bin({i})"
 
+def divmod_(i, j):
+    return f"divmod({i}, {j})"
+
+#eval, exec (i dunno how to do)
+
+def filter_(i, j):
+    return f"filter({i}, {j})"
+
+def format_(value, format_spec):
+    return f".format({value},{format_spec})"
+
+def getattr_(obj, name):
+    return f"getattr({obj}, {name})"
+
+def hasattr_(obj, name):
+    return f"hasattr({obj}, {name})"
+
+def hash_(obj):
+    return f"hash({obj})"
+
+def hex_(x):
+    return f"hex({x})"
+
+def id_(obj):
+    return f"id({obj})"
+
+###############################
+#i dunno if i should put this # - Input function below
+###############################
+
+def input_(prompt):
+    return f"input({prompt})"
+
+def isinstance_(obj, clsinfo):
+    return f"isinstance({obj},{clsinfo})"
+
+def issubclass_(class_, clsinfo):
+    return f"issubclass({class_}, {clsinfo})"
+
+#i dunno how to do iter
+
+def len_(i):
+    return f"len({i})"
+
+#i also dont know how to do map, max, min (im reading the python docs, i just dunno how to do it)
+
+#####################################
 def range_(start, stop="", step=""):
     return f'range({start})' if stop == "" else f'range({start},{stop})' if step == "" else f'range({start},{stop},{step})'
 
