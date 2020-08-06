@@ -38,13 +38,19 @@ class Block:
         self.func = func
 
         self.text = BLOCK_FONT.render(name, True, BLACK)
-        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45,
-                                    80, 40)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.h))
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
+
+    def moving(self, win, x, y):
+        self.x = x
+        self.y = y
+        pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
+        self.text_input.moving(win, self.x + self.w - 85, self.y + self.h - 45)
+        win.blit(self.text, (x + 4, y + 4))
 
     def clicked(self, pos):
         x, y = pos
@@ -85,6 +91,10 @@ class TextInput:
     def draw(self, win):
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
 
+    def moving(self,win, x, y):
+        self.x = x
+        self.y = y
+        pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
 
 class Tree:
     def __init__(self):
@@ -98,7 +108,6 @@ class Tree:
     def remove(self, block):
         self.blocks.remove(block)
         self.len = len(self.blocks)
-
 
 def main():
     def draw():
@@ -115,6 +124,13 @@ def main():
                 b.draw(win)
         for b in options.blocks:
             b.draw(win)
+
+        for b in code.blocks:
+            b.draw(win)
+
+        for b in moving.blocks:
+            x, y = pygame.mouse.get_pos()
+            b.moving(win, x, y)
 
         pygame.display.update()
 
@@ -138,17 +154,45 @@ def main():
     options.append(FunctionOptions(40, 25, SEA_GREEN, "built-in-func"))
     options.append(FunctionOptions(180, 25, SEA_GREEN, "operators"))
 
+    moving = Tree()
+    code = Tree()
+
     option = 0
+    flying = False
+
     while run:
         clock.tick(FPS)
         draw()
 
         if pygame.mouse.get_pressed()[0]:
-            pos = pygame.mouse.get_pos()
+            x, y = pygame.mouse.get_pos()
             for i, o in enumerate(options.blocks):
-                if o.clicked(pos):
+                if o.clicked((x,y)):
                     option = i
                     break
+
+            #choosing blocks
+            if option == 0:
+                a = bif.blocks
+            elif option == 1:
+                a = ope.blocks
+
+            if not flying:
+                for i in a:
+                    if i.clicked((x,y)):
+                        backup = i
+                        moving.append(i)
+                        flying = True
+            #I can't put it down and reset it at the choice menu
+            ############################
+            #doesn't work
+            else:
+                if option == 0:
+                    bif.append(backup)
+                elif option == 1:
+                    ope.append(backup)
+                code.append(backup)
+            ###########################
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
