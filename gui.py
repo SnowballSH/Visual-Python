@@ -1,11 +1,13 @@
 # GUI using pygame
 
 # Imports
+import json
 
 import pygame
-# import json
 # import os
 from pygame.locals import *
+
+import compiler
 
 pygame.font.init()
 
@@ -106,6 +108,13 @@ class Tree:
         self.blocks.remove(block)
         self.len = len(self.blocks)
 
+    def as_dict(self):
+        d = {}
+        for i, b in enumerate(self.blocks):
+            d.update({f"{b.func}{i}": {"args": "'TEST', 'Another test'"}})
+
+        return d
+
 
 def main():
     def draw():
@@ -146,7 +155,7 @@ def main():
     bif.append(Block(50, 100, GREEN, "output", "print"))
 
     ope = Tree()
-    ope.append(Block(50, 100, RED, "sum", "sum"))
+    ope.append(Block(50, 100, RED, "sum", "comment"))  # testing
 
     options = Tree()
 
@@ -193,6 +202,11 @@ def main():
                         code.append(Block(x, y, i.color, i.name, i.func))
                     moving = Tree()
                     flying = False
+
+    with open("blocks.json", "w") as j:
+        json.dump(code.as_dict(), j)
+    with open("blocks.json", "r") as j:
+        compiler.parse(json.load(j))
 
     pygame.quit()
 

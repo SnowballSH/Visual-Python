@@ -19,7 +19,7 @@ def parse(blocks):
                 end = attrs['end'].replace('\n', '\\n')
             if 'sep' in attrs:
                 sep = attrs['sep']
-            gen.print_(*args, end=end, sep=sep)
+            gen.print_(args, end=end, sep=sep)
         if 'if' in block:
             conditional = attrs['condition']
             gen.if_(conditional)
@@ -42,7 +42,7 @@ def parse(blocks):
         if 'var' in block:
             gen.assign_var(attrs['name'], attrs['value'])
         if 'comment' in block:
-            gen.comment(attrs['comment'])
+            gen.comment(attrs['args'])
         if 'invoke' in block:
             func = attrs['function']
             args = attrs['args']
@@ -70,4 +70,4 @@ def test_case():
     print('\n', *divider, sep='')
 
 
-test_case()
+# test_case()
