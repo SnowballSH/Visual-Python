@@ -128,8 +128,8 @@ def main():
             b.draw(win, b.x, b.y)
 
         for b in moving.blocks:
-            x, y = pygame.mouse.get_pos()
-            b.moving(win, x, y)
+            p_x, p_y = pygame.mouse.get_pos()
+            b.moving(win, p_x, p_y)
 
         pygame.display.update()
 
@@ -193,7 +193,6 @@ def main():
                         code.append(Block(x, y, i.color, i.name, i.func))
                     moving = Tree()
                     flying = False
-
 
     pygame.quit()
 
