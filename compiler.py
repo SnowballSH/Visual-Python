@@ -6,7 +6,6 @@ import json
 import os
 
 gen = Writer("test.py")
-blocks = json.load(open("blocks.json", 'r'))
 
 
 def parse(blocks):
@@ -52,7 +51,7 @@ def parse(blocks):
             gen.write(attrs["statement"])
 
 
-def test_case():
+def test_case(blocks):
     from time import sleep
 
     parse(blocks)
@@ -70,4 +69,6 @@ def test_case():
     print('\n', *divider, sep='')
 
 
-# test_case()
+if __name__ == '__main__':
+    blocks = json.load(open("blocks.json", 'r'))
+    test_case(blocks)

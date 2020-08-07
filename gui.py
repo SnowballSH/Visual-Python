@@ -206,7 +206,7 @@ def main():
     with open("blocks.json", "w") as j:
         json.dump(code.as_dict(), j)
     with open("blocks.json", "r") as j:
-        compiler.parse(json.load(j))
+        compiler.test_case(json.load(j))
 
     pygame.quit()
 
