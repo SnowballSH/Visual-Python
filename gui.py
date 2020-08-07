@@ -186,20 +186,20 @@ def main():
                         option = i
                         break
                 # choosing blocks
-                a = None
+                whichoption = None
                 if option == 0:
-                    a = bif.blocks
+                    whichoption = bif.blocks
                 elif option == 1:
-                    a = ope.blocks
+                    whichoption = ope.blocks
 
                 if not flying:
-                    for i in a:
-                        if i.clicked((x, y)):
-                            moving.append(i)
+                    for movingblock in whichoption:
+                        if movingblock.clicked((x, y)):
+                            moving.append(movingblock)
                             flying = True
                 else:
-                    for i in moving.blocks:
-                        code.append(Block(x, y, i.color, i.name, i.func))
+                    for block in moving.blocks:
+                        code.append(Block(x, y, block.color, block.name, block.func))
                     moving = Tree()
                     flying = False
 
