@@ -34,14 +34,14 @@ class Block:
         self.y = y
         self.w = 200
         self.h = 50
-
+        self.name = name
         self.func = func
 
         self.text = BLOCK_FONT.render(name, True, BLACK)
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
-    def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.h))
+    def draw(self, win, x, y):
+        pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
@@ -116,16 +116,16 @@ def main():
 
         if option == 0:
             for b in bif.blocks:
-                b.draw(win)
+                b.draw(win, b.x, b.y)
         elif option == 1:
             for b in ope.blocks:
-                b.draw(win)
+                b.draw(win, b.x, b.y)
 
         for b in options.blocks:
             b.draw(win)
 
         for b in code.blocks:
-            b.draw(win)
+            b.draw(win, b.x, b.y)
 
         for b in moving.blocks:
             x, y = pygame.mouse.get_pos()
@@ -190,8 +190,10 @@ def main():
                             flying = True
                 else:
                     for i in moving.blocks:
-                        code.append(i)
+                        code.append(Block(x, y, i.color, i.name, i.func))
                     moving = Tree()
+                    flying = False
+
 
     pygame.quit()
 
