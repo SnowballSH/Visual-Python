@@ -46,10 +46,8 @@ class Block:
         win.blit(self.text, (self.x + 4, self.y + 4))
 
     def moving(self, win, x, y):
-        self.x = x
-        self.y = y
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        self.text_input.moving(win, self.x + self.w - 85, self.y + self.h - 45)
+        self.text_input.moving(win, x + self.w - 85, y + self.h - 45)
         win.blit(self.text, (x + 4, y + 4))
 
     def clicked(self, pos):
@@ -92,8 +90,6 @@ class TextInput:
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
 
     def moving(self, win, x, y):
-        self.x = x
-        self.y = y
         pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
 
 
@@ -117,13 +113,14 @@ def main():
 
         # TEST
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
-        # print(option)
+
         if option == 0:
             for b in bif.blocks:
                 b.draw(win)
         elif option == 1:
             for b in ope.blocks:
                 b.draw(win)
+
         for b in options.blocks:
             b.draw(win)
 
@@ -166,43 +163,35 @@ def main():
         clock.tick(FPS)
         draw()
 
-        if pygame.mouse.get_pressed()[0]:
-            x, y = pygame.mouse.get_pos()
-            for i, o in enumerate(options.blocks):
-                if o.clicked((x, y)):
-                    option = i
-                    break
-
-            # choosing blocks
-            a = None
-            if option == 0:
-                a = bif.blocks
-            elif option == 1:
-                a = ope.blocks
-
-            if not flying:
-                for i in a:
-                    if i.clicked((x, y)):
-                        backup = i
-                        moving.append(i)
-                        flying = True
-            # I can't put it down and reset it at the choice menu
-            ############################
-            # doesn't work
-            else:
-                if option == 0:
-                    bif.append(backup)
-                elif option == 1:
-                    ope.append(backup)
-                code.append(backup)
-            ###########################
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.w, event.h
                 win = pygame.display.set_mode((width, height), flags=RESIZABLE)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                for i, o in enumerate(options.blocks):
+                    if o.clicked((x, y)):
+                        option = i
+                        break
+                # choosing blocks
+                a = None
+                if option == 0:
+                    a = bif.blocks
+                elif option == 1:
+                    a = ope.blocks
+
+                if not flying:
+                    for i in a:
+                        if i.clicked((x, y)):
+                            moving.append(i)
+                            flying = True
+                else:
+                    for i in moving.blocks:
+                        code.append(i)
+                    moving = Tree()
 
     pygame.quit()
 
