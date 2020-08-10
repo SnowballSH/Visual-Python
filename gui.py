@@ -128,6 +128,7 @@ class Tree:
         d = {}
         for i, b in enumerate(self.blocks):
             if b.func == 'print':
+                b.text_input.text = b.text_input.text.replace("'", r"\'")
                 d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'"}})
             else:
                 d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}"}})
