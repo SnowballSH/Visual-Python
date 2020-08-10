@@ -102,9 +102,7 @@ class TextInput:
         self.draw_text(win)
 
     def moving(self, win, x, y):
-        self.x = x
-        self.y = y
-        self.draw(win)
+        pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
 
     def clicked(self, pos):
         x, y = pos
