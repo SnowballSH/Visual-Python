@@ -236,9 +236,15 @@ def main():
 
             elif event.type == pygame.KEYDOWN:
                 if typing:
-                    typing_block.text_input.text += event.unicode
-                    typing_block.text_input.render()
-                    typing_block.text_input.draw(win)
+                    ti = typing_block.text_input
+                    if event.key == pygame.K_RETURN:
+                        typing = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        ti.text = ti.text[:-1]
+                    else:
+                        ti.text += event.unicode
+                    ti.render()
+                    ti.draw(win)
 
     pygame.quit()
 

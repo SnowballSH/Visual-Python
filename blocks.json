@@ -1,1 +1,1 @@
-{"print0": {"args": "'TEST', 'Another test'"}}
+{"print0": {"args": "'TEST', 'Another test'"}, "comment1": {"args": "'TEST', 'Another test'"}}
