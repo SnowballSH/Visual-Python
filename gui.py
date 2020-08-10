@@ -58,6 +58,9 @@ class Block:
             return True
         return False
 
+    def __lt__(self, other):
+        return self.y < other.y
+
 
 class FunctionOptions:
     def __init__(self, x, y, colour, name):
@@ -126,6 +129,7 @@ class Tree:
 
     def as_dict(self):
         d = {}
+        self.blocks = sorted(self.blocks)
         for i, b in enumerate(self.blocks):
             if b.func == 'print':
                 b.text_input.text = b.text_input.text.replace("'", r"\'")
