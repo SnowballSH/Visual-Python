@@ -87,12 +87,30 @@ class TextInput:
         self.y = y
         self.w = w
         self.h = h
+        self.text = ""
+        self.rendered_text = None
+        self.render()
+
+    def render(self):
+        self.rendered_text = OPTION_FONT.render(self.text, True, BLACK)
+
+    def draw_text(self, win):
+        win.blit(self.rendered_text, (self.x + 4, self.y + 4))
 
     def draw(self, win):
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
+        self.draw_text(win)
 
     def moving(self, win, x, y):
-        pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
+        self.x = x
+        self.y = y
+        self.draw(win)
+
+    def clicked(self, pos):
+        x, y = pos
+        if self.x < x < self.x + self.w and self.y < y < self.y + self.h:
+            return True
+        return False
 
 
 class Tree:
@@ -168,47 +186,66 @@ def main():
     option = 0
     flying = False
 
+    typing = False
+    typing_block = None
+
     while run:
         clock.tick(FPS)
         draw()
 
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.w, event.h
                 win = pygame.display.set_mode((width, height), flags=RESIZABLE)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
-                for i, o in enumerate(options.blocks):
-                    if o.clicked((x, y)):
-                        option = i
-                        break
-                # choosing blocks
-                whichoption = None
-                if option == 0:
-                    whichoption = bif.blocks
-                elif option == 1:
-                    whichoption = ope.blocks
 
-                if not flying:
-                    for movingblock in whichoption:
-                        if movingblock.clicked((x, y)):
-                            moving.append(movingblock)
-                            flying = True
-                else:
-                    for block in moving.blocks:
-                        code.append(Block(x, y, block.color, block.name, block.func))
-                    moving = Tree()
-                    flying = False
+                typing = False
+                typing_block = None
+                for i, o in enumerate(code.blocks):
+                    if o.text_input.clicked((x, y)):
+                        typing = True
+                        typing_block = o
+
+                if not typing:
+                    for i, o in enumerate(options.blocks):
+                        if o.clicked((x, y)):
+                            option = i
+                            break
+                    # choosing blocks
+                    which_options = None
+                    if option == 0:
+                        which_options = bif.blocks
+                    elif option == 1:
+                        which_options = ope.blocks
+
+                    if not flying:
+                        for moving_blocks in which_options:
+                            if moving_blocks.clicked((x, y)):
+                                moving.append(moving_blocks)
+                                flying = True
+                    else:
+                        for block in moving.blocks:
+                            code.append(Block(x, y, block.color, block.name, block.func))
+                        moving = Tree()
+                        flying = False
+
+            elif event.type == pygame.KEYDOWN:
+                if typing:
+                    typing_block.text_input.text += event.unicode
+                    typing_block.text_input.render()
+                    typing_block.text_input.draw(win)
+
+    pygame.quit()
 
     with open("blocks.json", "w") as j:
         json.dump(code.as_dict(), j)
     with open("blocks.json", "r") as j:
         compiler.test_case(json.load(j))
-
-    pygame.quit()
 
 
 main()

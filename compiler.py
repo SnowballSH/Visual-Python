@@ -20,12 +20,12 @@ def parse(blocks):
                 sep = attrs['sep']
             gen.print_(args, end=end, sep=sep)
         if 'if' in block:
-            conditional = attrs['condition']
+            conditional = attrs['args']
             gen.if_(conditional)
             parse(attrs['blocks'])
             gen.end_tab()
         if 'while' in block:
-            condition = attrs['condition']
+            condition = attrs['args']
             gen.while_(condition)
             parse(attrs['blocks'])
             gen.end_tab()
@@ -36,7 +36,7 @@ def parse(blocks):
             parse(attrs['blocks'])
             gen.end_tab()
         if 'return' in block:
-            output = attrs['output']
+            output = attrs['args']
             gen.return_(output)
         if 'var' in block:
             gen.assign_var(attrs['name'], attrs['value'])
@@ -48,7 +48,7 @@ def parse(blocks):
             gen.callFunction(func, *args)
 
         if 'eval' in block:  # DEVELOPMENT PURPOSES ONLY
-            gen.write(attrs["statement"])
+            gen.write(attrs['args'])
 
 
 def test_case(blocks):
