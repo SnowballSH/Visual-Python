@@ -127,7 +127,10 @@ class Tree:
     def as_dict(self):
         d = {}
         for i, b in enumerate(self.blocks):
-            d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'"}})
+            if b.func == 'print':
+                d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'"}})
+            else:
+                d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}"}})
 
         return d
 
