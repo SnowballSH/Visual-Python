@@ -127,7 +127,7 @@ class Tree:
     def as_dict(self):
         d = {}
         for i, b in enumerate(self.blocks):
-            d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}"}})
+            d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'"}})
 
         return d
 
