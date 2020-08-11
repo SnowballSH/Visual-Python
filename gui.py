@@ -145,8 +145,9 @@ def main():
         win.fill(GREY)
         pygame.draw.rect(win, BLACK, (350, 0, 10, height))
         pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
+        
         # TEST
-        pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
+        # pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
 
         if option == 0:
             for b in bif.blocks:
@@ -174,7 +175,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    win = pygame.display.set_mode((width, height), flags=RESIZABLE)
+    win = pygame.display.set_mode((width, height), flags=RESIZABLE)# or fullscreen if wanted for smaller screens :P
     pygame.display.set_caption("Code generator")
 
     bif = Tree()
