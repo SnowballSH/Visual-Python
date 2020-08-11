@@ -26,7 +26,7 @@ GREY = (198, 214, 198)
 SEA_GREEN = (0, 255, 197)
 
 BLOCK_FONT = pygame.font.SysFont("lemon", 20)
-OPTION_FONT = pygame.font.SysFont("lemon", 13)
+OPTION_FONT = pygame.font.SysFont("lemon", 20)
 
 
 class Block:
@@ -43,6 +43,7 @@ class Block:
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
     def draw(self, win, x, y):
+        #self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
@@ -91,7 +92,6 @@ class TextInput:
         self.w = w
         self.h = h
         self.text = ""
-        self.rendered_text = None
         self.render()
 
     def render(self):
@@ -197,9 +197,23 @@ def main():
     typing = False
     typing_block = None
 
+    movecode = True
+
     while run:
         clock.tick(FPS)
         draw()
+        movecode = True
+        for o in code.blocks:
+            if o.clicked(pygame.mouse.get_pos()):
+                movecode = False
+
+        if pygame.mouse.get_pressed()[0] and 350 < pygame.mouse.get_pos()[0] < width * 0.7 and movecode:
+            xnew, ynew = pygame.mouse.get_pos()
+            for number in range(len(code.blocks)):
+                code.blocks[number].x += xold - xnew
+                code.blocks[number].y += yold - ynew
+        xold, yold = pygame.mouse.get_pos()
+
 
         for event in pygame.event.get():
 
@@ -209,6 +223,7 @@ def main():
                 width, height = event.w, event.h
                 win = pygame.display.set_mode((width, height), flags=RESIZABLE)
 
+            #clicking
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
 
@@ -243,6 +258,7 @@ def main():
                         moving = Tree()
                         flying = False
 
+            #writing inside functions
             elif event.type == pygame.KEYDOWN:
                 if typing:
                     ti = typing_block.text_input
