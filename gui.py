@@ -143,6 +143,11 @@ class Tree:
 def main():
     def draw():
         win.fill(GREY)
+        for b in code.blocks:
+            b.draw(win, b.x, b.y)
+        win.fill(GREY, (0, 0, 350, height))
+        pygame.draw.rect(win, GREY, (width * 0.7, 0, width * 0.3, height))
+        
         pygame.draw.rect(win, BLACK, (350, 0, 10, height))
         pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
         # TEST
@@ -158,9 +163,7 @@ def main():
         for b in options.blocks:
             b.draw(win)
 
-        for b in code.blocks:
-            if 350 < b.x and b.x + b.w < width * 0.7:
-                b.draw(win, b.x, b.y)
+
 
         for b in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
