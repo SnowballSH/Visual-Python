@@ -143,7 +143,8 @@ class Tree:
 def main():
     def draw():
         win.fill(GREY)
-
+        pygame.draw.rect(win, BLACK, (350, 0, 10, height))
+        pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
         # TEST
         pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
 
@@ -163,6 +164,7 @@ def main():
         for b in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
             b.moving(win, p_x, p_y)
+
 
         pygame.display.update()
 
@@ -236,7 +238,8 @@ def main():
                                 flying = True
                     else:
                         for block in moving.blocks:
-                            code.append(Block(x, y, block.color, block.name, block.func))
+                            if 350 < x < width * 0.7:
+                                code.append(Block(x, y, block.color, block.name, block.func))
                         moving = Tree()
                         flying = False
 
