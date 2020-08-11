@@ -43,9 +43,8 @@ class Block:
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
     def draw(self, win, x, y):
-        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        self.text_input.draw(win)
+        self.text_input.draw(win, self.x + self.w - 85, self.y + self.h - 45)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
     def moving(self, win, x, y):
@@ -100,7 +99,8 @@ class TextInput:
     def draw_text(self, win):
         win.blit(self.rendered_text, (self.x + 4, self.y + 4))
 
-    def draw(self, win):
+    def draw(self, win, x, y):
+        self.x, self.y = x, y
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
         self.draw_text(win)
 
@@ -265,7 +265,7 @@ def main():
                     else:
                         ti.text += event.unicode
                     ti.render()
-                    ti.draw(win)
+                    ti.draw(win, ti.x, ti.y)
 
     pygame.quit()
 
