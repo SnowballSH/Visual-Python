@@ -43,7 +43,7 @@ class Block:
         self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
 
     def draw(self, win, x, y):
-        #self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
         self.text_input.draw(win)
         win.blit(self.text, (self.x + 4, self.y + 4))
@@ -159,7 +159,8 @@ def main():
             b.draw(win)
 
         for b in code.blocks:
-            b.draw(win, b.x, b.y)
+            if 350 < b.x and b.x + b.w < width * 0.7:
+                b.draw(win, b.x, b.y)
 
         for b in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
@@ -195,13 +196,11 @@ def main():
     flying = False
 
     typing = False
-    typing_block = None
-
-    movecode = True
 
     while run:
         clock.tick(FPS)
         draw()
+
         movecode = True
         for o in code.blocks:
             if o.clicked(pygame.mouse.get_pos()):
@@ -228,7 +227,6 @@ def main():
                 x, y = pygame.mouse.get_pos()
 
                 typing = False
-                typing_block = None
                 for i, o in enumerate(code.blocks):
                     if o.text_input.clicked((x, y)):
                         typing = True
@@ -240,7 +238,6 @@ def main():
                             option = i
                             break
                     # choosing blocks
-                    which_options = None
                     if option == 0:
                         which_options = bif.blocks
                     elif option == 1:
@@ -259,8 +256,7 @@ def main():
                         flying = False
 
             #writing inside functions
-            elif event.type == pygame.KEYDOWN:
-                if typing:
+            elif event.type == pygame.KEYDOWN and typing:
                     ti = typing_block.text_input
                     if event.key == pygame.K_RETURN:
                         typing = False
