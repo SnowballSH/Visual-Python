@@ -179,7 +179,7 @@ def main():
     clock = pygame.time.Clock()
 
     win = pygame.display.set_mode((width, height), flags=RESIZABLE)# or fullscreen if wanted for smaller screens :P
-    pygame.display.set_caption("Code generator")
+    pygame.display.set_caption("Visual Python - Code Generator")
 
     bif = Tree()
 
