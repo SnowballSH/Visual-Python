@@ -215,7 +215,7 @@ def main():
             for number in range(len(code.blocks)):
                 code.blocks[number].x += xold - xnew
                 code.blocks[number].y += yold - ynew
-        else:movingcode = 0
+        else:movingcode = False
         xold, yold = pygame.mouse.get_pos()
 
 
@@ -232,7 +232,7 @@ def main():
                 x, y = pygame.mouse.get_pos()
 
                 if movecode and 350 < x < width * 0.7:
-                    movingcode = 1
+                    movingcode = True
 
                 typing = False
                 for i, o in enumerate(code.blocks):
