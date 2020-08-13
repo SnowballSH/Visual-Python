@@ -210,11 +210,12 @@ def main():
             if o.clicked(pygame.mouse.get_pos()):
                 movecode = False
 
-        if pygame.mouse.get_pressed()[0] and 350 < pygame.mouse.get_pos()[0] < width * 0.7 and movecode:
+        if pygame.mouse.get_pressed()[0] and movecode and movingcode:
             xnew, ynew = pygame.mouse.get_pos()
             for number in range(len(code.blocks)):
                 code.blocks[number].x += xold - xnew
                 code.blocks[number].y += yold - ynew
+        else:movingcode = 0
         xold, yold = pygame.mouse.get_pos()
 
 
@@ -229,6 +230,9 @@ def main():
             #clicking
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
+
+                if movecode and 350 < x < width * 0.7:
+                    movingcode = 1
 
                 typing = False
                 for i, o in enumerate(code.blocks):
