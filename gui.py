@@ -143,8 +143,10 @@ class Tree:
 def main():
     def draw():
         win.fill(GREY)
-        for b in code.blocks:
-            b.draw(win, b.x, b.y)
+
+        for block in code.blocks:
+            block.draw(win, block.x, block.y)
+
         win.fill(GREY, (0, 0, 350, height))
         pygame.draw.rect(win, GREY, (width * 0.7, 0, width * 0.3, height))
         
@@ -152,23 +154,20 @@ def main():
         pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
         
         # TEST
-        # pygame.draw.circle(win, RED, (width // 2, height // 2), 10)
 
         if option == 0:
-            for b in bif.blocks:
-                b.draw(win, b.x, b.y)
+            for block in bif.blocks:
+                block.draw(win, block.x, block.y)
         elif option == 1:
-            for b in ope.blocks:
-                b.draw(win, b.x, b.y)
+            for block in ope.blocks:
+                block.draw(win, block.x, block.y)
 
-        for b in options.blocks:
-            b.draw(win)
+        for block in options.blocks:
+            block.draw(win)
 
-
-
-        for b in moving.blocks:
+        for block  in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
-            b.moving(win, p_x, p_y)
+            block.moving(win, p_x, p_y)
 
 
         pygame.display.update()
@@ -206,8 +205,8 @@ def main():
         draw()
 
         movecode = True
-        for o in code.blocks:
-            if o.clicked(pygame.mouse.get_pos()):
+        for block in code.blocks:
+            if block.clicked(pygame.mouse.get_pos()):
                 movecode = False
 
         if pygame.mouse.get_pressed()[0] and movecode and movingcode:
@@ -235,15 +234,15 @@ def main():
                     movingcode = True
 
                 typing = False
-                for i, o in enumerate(code.blocks):
-                    if o.text_input.clicked((x, y)):
+                for block in code.blocks:
+                    if block.text_input.clicked((x, y)):
                         typing = True
-                        typing_block = o
+                        typing_block = block
 
                 if not typing:
-                    for i, o in enumerate(options.blocks):
-                        if o.clicked((x, y)):
-                            option = i
+                    for index, block in enumerate(options.blocks):
+                        if block.clicked((x, y)):
+                            option = index
                             break
                     # choosing blocks
                     if option == 0:
