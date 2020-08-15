@@ -126,9 +126,9 @@ class Tree:
         for i, b in enumerate(self.blocks):
             if b.func == 'print':
                 b.text_input.text = b.text_input.text.replace("'", r"\'")
-                d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'"}})
+                d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'", "pos":[b.x, b.y], "size":[b.w, b.h], "color":b.color, "name":b.name}})
             else:
-                d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}"}})
+                d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}", "pos":[b.x, b.y], "size":[b.w, b.h], "color":b.color, "name":b.name}})
 
         return d
 
@@ -186,6 +186,13 @@ def main():
 
     moving = Tree()
     code = Tree()
+
+    with open("blocks.json", "r") as f:
+        data = json.load(f)
+    for func, args in data.items():
+        func = "".join([i for i in func if i.isalpha()])
+        code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
+        code.blocks[-1].text_input.text = args["args"].strip("'")
 
     which_options = bif.blocks
     option = 0
