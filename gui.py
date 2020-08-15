@@ -187,15 +187,19 @@ def main():
     moving = Tree()
     code = Tree()
 
-    with open("blocks.json", "r") as f:
-        data = json.load(f)
-    for func, args in data.items():
-        func = "".join([i for i in func if i.isalpha()])
-        code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
-        if func == 'print':
-            code.blocks[-1].text_input.text = args["args"][1:-1]
-        else:
-            code.blocks[-1].text_input.text = args["args"]
+    try:
+        with open("blocks.json", "r") as f:
+            data = json.load(f)
+        for func, args in data.items():
+            func = "".join([i for i in func if i.isalpha()])
+            code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
+            if func == 'print':
+                code.blocks[-1].text_input.text = args["args"][1:-1]
+            else:
+                code.blocks[-1].text_input.text = args["args"]
+    except Exception:
+        with open("blocks.json", "w") as f:
+            f.write("{}")
 
     which_options = bif.blocks
     option = 0
@@ -298,7 +302,7 @@ def main():
     pygame.quit()
 
     with open("blocks.json", "w") as j:
-        json.dump(code.as_dict(), j)
+        json.dump(code.as_dict(), j, indent=2)
     with open("blocks.json", "r") as j:
         compiler.test_case(json.load(j))
 
