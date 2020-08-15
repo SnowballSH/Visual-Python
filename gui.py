@@ -147,8 +147,7 @@ def main():
         #draws the basic layout
         pygame.draw.rect(win, BLACK, (350, 0, 10, height))
         # pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
-        
-        # TEST
+
         #draws all of the blocks you can choose
         for block in which_options:
             block.draw(win, block.x, block.y)
@@ -161,6 +160,11 @@ def main():
         for block in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
             block.moving(win, p_x, p_y)
+
+        #draws clear button
+        pygame.draw.rect(win, GREEN, (50, height-55, 200, 50))
+        clear = OPTION_FONT.render("Clear or Delete All Blocks", True, BLACK)
+        win.blit(clear, (clear.get_width()/2-10, height-45+clear.get_height()/2))
 
 
         pygame.display.update()
@@ -238,6 +242,10 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
 
+                #clearing all blocks
+                if (x >= 50 or x <= 250) and (y >= height-55 or y <= height-50):
+                    code.blocks = []
+
                 #moving code part
                 # if 350 < x < width * 0.7: #checks that mouse click was inside code box
                 movecode = True
@@ -288,16 +296,16 @@ def main():
 
             #writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
-                    ti = typing_block.text_input
-                    if event.key == pygame.K_RETURN:#if enter is pressed writing ends
-                        typing = False
-                    elif event.key == pygame.K_BACKSPACE:#deleting letters
-                        ti.text = ti.text[:-1]
-                    else:#every time you time text gets added
-                        ti.text += event.unicode
+                ti = typing_block.text_input
+                if event.key == pygame.K_RETURN:#if enter is pressed writing ends
+                    typing = False
+                elif event.key == pygame.K_BACKSPACE:#deleting letters
+                    ti.text = ti.text[:-1]
+                else:#every time you time text gets added
+                    ti.text += event.unicode
 
-                    ti.render()#renders the output
-                    ti.draw(win, ti.x, ti.y)#draws the output
+                ti.render()#renders the output
+                ti.draw(win, ti.x, ti.y)#draws the output
 
     pygame.quit()
 
