@@ -192,7 +192,10 @@ def main():
     for func, args in data.items():
         func = "".join([i for i in func if i.isalpha()])
         code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
-        code.blocks[-1].text_input.text = args["args"].strip("'")
+        if func == 'print':
+            code.blocks[-1].text_input.text = args["args"][1:-1]
+        else:
+            code.blocks[-1].text_input.text = args["args"]
 
     which_options = bif.blocks
     option = 0
