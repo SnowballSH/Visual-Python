@@ -82,20 +82,20 @@ class TextInput:
         #renders the text
         self.rendered_text = OPTION_FONT.render(self.text, True, BLACK)
 
-    def draw_text(self, win):
+    def draw_text(self, win, x, y):
         #draws rendered text
-        win.blit(self.rendered_text, (self.x + 4, self.y + 4))
+        win.blit(self.rendered_text, (x + 4, y + 4))
 
     def draw(self, win, x, y):
         #draws text box
         self.x, self.y = x, y
         pygame.draw.rect(win, WHITE, (self.x, self.y, self.w, self.h))
-        self.draw_text(win)
+        self.draw_text(win, self.x, self.y)
 
     def moving(self, win, x, y):
         #moves text box around when it doesn't stay there
         pygame.draw.rect(win, WHITE, (x, y, self.w, self.h))
-
+        self.draw_text(win, x, y)
     def clicked(self, pos):
         #makes checking if something is clicked easier
         x, y = pos
@@ -158,7 +158,7 @@ def main():
             block.draw(win, block.x, block.y)
 
         #draws the moving block
-        for block  in moving.blocks:
+        for block in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
             block.moving(win, p_x, p_y)
 
@@ -175,7 +175,7 @@ def main():
 
     #defining all the variables
     bif = Tree()
-    bif.append(Block(50, 100, 200, 50, GREEN, "output", "print"))
+    bif.append(Block(50, 100, 200, 50, GREEN, "input", "print"))
 
     ope = Tree()
     ope.append(Block(50, 100, 200, 50, RED, "sum", "comment"))  # testing
@@ -194,6 +194,7 @@ def main():
     typing = False
 
     movecode = False
+
 
     while run:
         clock.tick(FPS)
@@ -229,12 +230,36 @@ def main():
                     for block in code.blocks:#checks that you didn't click on any of the code blocks
                         if block.clicked(pygame.mouse.get_pos()):
                             movecode = False
-                #after every click sets typing to False and then checks if you clicked on textbox
+
+                if flying:#while flying is equal to True, everytime when you click it checks that you clicked inside code box and appends it into code Tree
+                    for block in moving.blocks:
+                        if 350 < x < width * 0.7:
+                            code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                            
+                    moving = Tree()
+                    flying = False
+
+                # after every click sets typing to False and then checks if you clicked on textbox
                 typing = False
                 for block in code.blocks:
                     if block.text_input.clicked((x, y)):
                         typing = True
                         typing_block = block
+                    else:#checks if you clicked any other part of the block
+                        if block.clicked((x,y)):
+                            code.blocks.remove(block)
+                            flying = True
+                            flyingblock = block
+
+                if not flying:  # checks if any of the available blocks was clicked
+                    for block in which_options:
+                        if block.clicked((x, y)):
+                            flying = True
+                            flyingblock = block
+
+                if flying:
+                    moving.blocks.append(flyingblock)
+
 
                 if not typing:
                     for index, block in enumerate(options.blocks):#checks if any of the options buttons was clicked and changes option accordingly
@@ -248,17 +273,8 @@ def main():
                         which_options = ope.blocks
 
 
-                    if not flying:#checks if any of the available blocks was clicked
-                        for moving_blocks in which_options:
-                            if moving_blocks.clicked((x, y)):
-                                moving.append(moving_blocks)
-                                flying = True
-                    else:#while flying is equal to True, everytime when you click it checks that you clicked inside code box and appends it into code Tree
-                        for block in moving.blocks:
-                            if 350 < x < width * 0.7:
-                                code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
-                        moving = Tree()
-                        flying = False
+
+
 
             #writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
@@ -269,6 +285,7 @@ def main():
                         ti.text = ti.text[:-1]
                     else:#every time you time text gets added
                         ti.text += event.unicode
+
                     ti.render()#renders the output
                     ti.draw(win, ti.x, ti.y)#draws the output
 
