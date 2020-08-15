@@ -142,11 +142,11 @@ def main():
 
         # covers any blocks that might have been moved outside code box
         win.fill(GREY, (0, 0, 350, height))
-        pygame.draw.rect(win, GREY, (width * 0.7, 0, width * 0.3, height))
+        # pygame.draw.rect(win, GREY, (width * 0.7, 0, width * 0.3, height))
 
         #draws the basic layout
         pygame.draw.rect(win, BLACK, (350, 0, 10, height))
-        pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
+        # pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
         
         # TEST
         #draws all of the blocks you can choose
@@ -175,7 +175,7 @@ def main():
 
     #defining all the variables
     bif = Tree()
-    bif.append(Block(50, 100, 200, 50, GREEN, "input", "print"))
+    bif.append(Block(50, 100, 200, 50, GREEN, "print", "print"))
 
     ope = Tree()
     ope.append(Block(50, 100, 200, 50, RED, "sum", "comment"))  # testing
@@ -225,16 +225,16 @@ def main():
                 x, y = pygame.mouse.get_pos()
 
                 #moving code part
-                if 350 < x < width * 0.7: #checks that mouse click was inside code box
-                    movecode = True
-                    for block in code.blocks:#checks that you didn't click on any of the code blocks
-                        if block.clicked(pygame.mouse.get_pos()):
-                            movecode = False
+                # if 350 < x < width * 0.7: #checks that mouse click was inside code box
+                movecode = True
+                for block in code.blocks:#checks that you didn't click on any of the code blocks
+                    if block.clicked(pygame.mouse.get_pos()):
+                        movecode = False
 
                 if flying:#while flying is equal to True, everytime when you click it checks that you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
-                        if 350 < x < width * 0.7:
-                            code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                        # if 350 < x < width * 0.7:
+                        code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
                             
                     moving = Tree()
                     flying = False
@@ -271,10 +271,6 @@ def main():
                         which_options = bif.blocks
                     elif option == 1:
                         which_options = ope.blocks
-
-
-
-
 
             #writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
