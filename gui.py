@@ -262,6 +262,7 @@ def main():
                     for block in moving.blocks:
                         # if 350 < x < width * 0.7:
                         code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                        code.blocks[-1].text_input.text = block.text_input.text
 
                     moving = Tree()
                     flying = False
