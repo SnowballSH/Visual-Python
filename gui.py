@@ -35,8 +35,8 @@ class Block:
         self.color = colour
         self.x = x
         self.y = y
-        self.w = w  # 200
-        self.h = h  # 50
+        self.w = w
+        self.h = h
         self.name = name
         self.func = func
         self.textdraw = textdraw
@@ -223,8 +223,7 @@ def main():
         draw()
 
         # moves code around
-        if pygame.mouse.get_pressed()[
-            0] and movecode:  # checks if you are holding mouse button (movecode is defined in event for loop)
+        if pygame.mouse.get_pressed()[0] and movecode:  # checks if you are holding mouse button (movecode is defined in event for loop)
             xnew, ynew = pygame.mouse.get_pos()  # takes current mouse position
             for number in range(len(code.blocks)):  # moves every block that is considered code
                 code.blocks[number].x += xold - xnew
@@ -273,11 +272,11 @@ def main():
                     if block.text_input.clicked((x, y)):
                         typing = True
                         typing_block = block
-                    else:  # checks if you clicked any other part of the block
-                        if block.clicked((x, y)):
-                            code.blocks.remove(block)
-                            flying = True
-                            flyingblock = block
+                    # checks if you clicked any other part of the block
+                    elif block.clicked((x, y)):
+                        code.blocks.remove(block)
+                        flying = True
+                        flyingblock = block
 
                 if not flying:  # checks if any of the available blocks was clicked
                     for block in which_options:
@@ -289,8 +288,7 @@ def main():
                     moving.blocks.append(flyingblock)
 
                 if not typing:
-                    for index, block in enumerate(
-                            options.blocks):  # checks if any of the options buttons was clicked and changes option accordingly
+                    for index, block in enumerate(options.blocks):  # checks if any of the options buttons was clicked and changes option accordingly
                         if block.clicked((x, y)):
                             option = index
                             break
