@@ -82,11 +82,21 @@ class TextInput:
 
     def render(self):
         # renders the text
-        self.rendered_text = OPTION_FONT.render(self.text, True, BLACK)
+        self.rendered_text = []
+        textlist = []
+        for i in range(len(self.text)//10 + 1):
+            textlist.append("")
+        for index, letter in enumerate(self.text):
+            lindex = index // 10
+            textlist[lindex] = textlist[lindex] + letter
+
+        for text in textlist:
+            self.rendered_text.append(OPTION_FONT.render(text, True, BLACK))
 
     def draw_text(self, win, x, y):
         # draws rendered text
-        win.blit(self.rendered_text, (x + 4, y + 4))
+        for index, text in enumerate(self.rendered_text):
+            win.blit(text, (x + 4, y + 4 + index * 10))
 
     def draw(self, win, x, y):
         # draws text box
