@@ -58,7 +58,7 @@ def test_case(blocks):
 
     gen.close()
 
-    divider = ['-' for _ in range(180)]
+    divider = ['-' for _ in range(100)]
     print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
 
     sleep(2.0)
