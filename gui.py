@@ -49,6 +49,7 @@ class Block:
         # draws the block and the text box if you define textdraw as true
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
         if self.textdraw:
+            self.text_input.render()
             self.text_input.draw(win, self.x + self.w - 85, self.y + self.h - 45)
         win.blit(self.text, (self.x + 4, self.y + 4))
 
