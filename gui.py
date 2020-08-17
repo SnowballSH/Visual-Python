@@ -78,13 +78,14 @@ class TextInput:
         self.w = w
         self.h = h
         self.text = ""
+        self.rendered_text = None
         self.render()
 
     def render(self):
         # renders the text
         self.rendered_text = []
         textlist = []
-        for i in range(len(self.text)//10 + 1):
+        for i in range(len(self.text) // 10 + 1):
             textlist.append("")
         for index, letter in enumerate(self.text):
             lindex = index // 10
@@ -153,8 +154,8 @@ def main():
     def draw():
         win.fill(GREY)  # creates background colour
 
-        for block in code.blocks:  # draws all blocks inside code. MUST STAY HERE BECAUSE OF THE MOVING SYSTEM
-            block.draw(win, block.x, block.y)
+        for d_block in code.blocks:  # draws all blocks inside code. MUST STAY HERE BECAUSE OF THE MOVING SYSTEM
+            d_block.draw(win, d_block.x, d_block.y)
 
         # covers any blocks that might have been moved outside code box
         win.fill(GREY, (0, 0, 350, height))
@@ -165,17 +166,17 @@ def main():
         # pygame.draw.rect(win, BLACK, (width * 0.7, 0, 10, height))
 
         # draws all of the blocks you can choose
-        for block in which_options:
-            block.draw(win, block.x, block.y)
+        for d_block in which_options:
+            d_block.draw(win, d_block.x, d_block.y)
 
         # draws buttons for choosing which options do you want
-        for block in options.blocks:
-            block.draw(win, block.x, block.y)
+        for d_block in options.blocks:
+            d_block.draw(win, d_block.x, d_block.y)
 
         # draws the moving block
-        for block in moving.blocks:
+        for d_block in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
-            block.moving(win, p_x, p_y)
+            d_block.moving(win, p_x, p_y)
 
         # draws clear button
         pygame.draw.rect(win, GREEN, (50, height - 55, 200, 50))
@@ -217,7 +218,7 @@ def main():
                 code.blocks[-1].text_input.text = args["args"][1:-1]
             else:
                 code.blocks[-1].text_input.text = args["args"]
-    except Exception:
+    except IOError:
         with open("blocks.json", "w") as f:
             f.write("{}")
 
@@ -229,12 +230,18 @@ def main():
 
     movecode = False
 
+    xold, yold = pygame.mouse.get_pos()
+
+    flyingblock = None
+    typing_block = None
+
     while run:
         clock.tick(FPS)
         draw()
 
         # moves code around
-        if pygame.mouse.get_pressed()[0] and movecode:  # checks if you are holding mouse button (movecode is defined in event for loop)
+        if pygame.mouse.get_pressed()[0] and movecode:
+            # checks if you are holding mouse button (movecode is defined in event for loop)
             xnew, ynew = pygame.mouse.get_pos()  # takes current mouse position
             for number in range(len(code.blocks)):  # moves every block that is considered code
                 code.blocks[number].x += xold - xnew
@@ -268,7 +275,9 @@ def main():
                     if block.clicked(pygame.mouse.get_pos()):
                         movecode = False
 
-                if flying:  # while flying is equal to True, everytime when you click it checks that you clicked inside code box and appends it into code Tree
+                if flying:
+                    # while flying is equal to True, everytime when you click it checks that
+                    # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
                         # if 350 < x < width * 0.7:
                         code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
@@ -299,7 +308,9 @@ def main():
                     moving.blocks.append(flyingblock)
 
                 if not typing:
-                    for index, block in enumerate(options.blocks):  # checks if any of the options buttons was clicked and changes option accordingly
+                    for index, block in enumerate(options.blocks):
+                        # checks if any of the options buttons was clicked
+                        # and changes option accordingly
                         if block.clicked((x, y)):
                             option = index
                             break
