@@ -201,14 +201,22 @@ def main():
     # defining all the variables
     bif = Tree()
     bif.append(Block(50, 100, 200, 50, GREEN, "print", "print"))
-    bif.append(Block(50, 200, 200, 50, BLUE, "input", "input"))
+    bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-    ope.append(Block(50, 100, 200, 50, RED, "sum", "comment"))  # testing
+    ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
+    ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
+    ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
+    ope.append(Block(50, 265, 200, 50, RED, "division (not functional)", "comment"))
+
+    var = Tree()
+    var.append(Block(50, 100, 200, 50, GREEN, "assign_var (not functional)", "comment"))
+    var.append(Block(50, 155, 200, 50, GREEN, "call_var (not functional)", "comment"))
 
     options = Tree()
     options.append(Block(40, 25, 120, 30, SEA_GREEN, "built-in-func", textdraw=False))
     options.append(Block(180, 25, 120, 30, SEA_GREEN, "operators", textdraw=False))
+    options.append(Block(40, 60, 120, 30, SEA_GREEN, "variables", textdraw=False))
 
     moving = Tree()
     code = Tree()
@@ -326,6 +334,8 @@ def main():
                         which_options = bif.blocks
                     elif option == 1:
                         which_options = ope.blocks
+                    elif option == 2:
+                        which_options = var.blocks
 
             # writing inside functions
             elif event.type == pygame.KEYDOWN and typing:

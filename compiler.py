@@ -41,7 +41,7 @@ def parse(blocks):
         if 'return' in block:
             output = attrs['args']
             gen.return_(output)
-        if 'var' in block:
+        if 'assign_var' in block:
             gen.assign_var(attrs['name'], attrs['value'])
         if 'comment' in block:
             gen.comment(attrs['args'])
