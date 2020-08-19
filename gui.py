@@ -143,6 +143,10 @@ class Tree:
                 b.text_input.text = b.text_input.text.replace("'", r"\'")
                 d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'", "pos": [b.x, b.y], "size": [b.w, b.h],
                                            "color": b.color, "name": b.name}})
+            elif b.func == 'input':
+                b.text_input.text = b.text_input.text.replace("'", r"\'")
+                d.update({f"{b.func}{i}": {"prompt": f"'{b.text_input.text} '", "pos": [b.x, b.y], "size": [b.w, b.h],
+                                           "color": b.color, "name": b.name}})
             else:
                 d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}", "pos": [b.x, b.y], "size": [b.w, b.h],
                                            "color": b.color, "name": b.name}})
@@ -197,6 +201,7 @@ def main():
     # defining all the variables
     bif = Tree()
     bif.append(Block(50, 100, 200, 50, GREEN, "print", "print"))
+    bif.append(Block(50, 200, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
     ope.append(Block(50, 100, 200, 50, RED, "sum", "comment"))  # testing
@@ -216,6 +221,8 @@ def main():
             code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
             if func == 'print':
                 code.blocks[-1].text_input.text = args["args"][1:-1]
+            elif func == 'input':
+                code.blocks[-1].text_input.text = args["prompt"][1:-1]
             else:
                 code.blocks[-1].text_input.text = args["args"]
     except IOError:
@@ -336,6 +343,7 @@ def main():
     pygame.quit()
 
     with open("blocks.json", "w") as j:
+        # print(code.as_dict())
         json.dump(code.as_dict(), j, indent=2)
     with open("blocks.json", "r") as j:
         compiler.test_case(json.load(j))

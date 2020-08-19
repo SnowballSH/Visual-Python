@@ -55,9 +55,6 @@ def id_(obj):
 #i dunno if i should put this # - Input function below
 ###############################
 
-def input_(prompt):
-    return f"input({prompt})"
-
 def isinstance_(obj, clsinfo):
     return f"isinstance({obj},{clsinfo})"
 
@@ -216,6 +213,9 @@ class Writer:
         if write:
             self.write(p)
         return p
+
+    def input_(self, prompt):
+        self.write(f"input({prompt})\n")
 
     def end_tab(self):
         self.update_tab(self.tab - 1)

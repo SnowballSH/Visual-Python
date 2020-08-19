@@ -19,6 +19,9 @@ def parse(blocks):
             if 'sep' in attrs:
                 sep = attrs['sep']
             gen.print_(args, end=end, sep=sep)
+        if 'input' in block:
+            prompt = attrs['prompt']
+            gen.input_(prompt)
         if 'if' in block:
             conditional = attrs['args']
             gen.if_(conditional)
