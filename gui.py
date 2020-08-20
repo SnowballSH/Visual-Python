@@ -124,17 +124,14 @@ class Tree:
     def __init__(self):
         # defines the list where all blocks of a certain "tree" are saved
         self.blocks = []
-        self.len = len(self.blocks)
 
     def append(self, block):
         # defining appending
         self.blocks.append(block)
-        self.len = len(self.blocks)
 
     def remove(self, block):
         # defining removing
         self.blocks.remove(block)
-        self.len = len(self.blocks)
 
     def as_dict(self):
         d = {}
