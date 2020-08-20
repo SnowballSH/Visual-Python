@@ -127,17 +127,14 @@ class Tree:
     def __init__(self):
         # defines the list where all blocks of a certain "tree" are saved
         self.blocks = []
-        self.len = len(self.blocks)
 
     def append(self, block):
         # defining appending
         self.blocks.append(block)
-        self.len = len(self.blocks)
 
     def remove(self, block):
         # defining removing
         self.blocks.remove(block)
-        self.len = len(self.blocks)
 
     def as_dict(self):
         d = {}
@@ -296,13 +293,15 @@ def main():
 
                         if 350 < x < width * 0.7:
                             b_x, b_y = x, y
-                            if code.len > 0:
+                            if len(code.blocks) > 0:
                                 last = code.blocks[-1]
                                 b_x = last.x
                                 b_y = last.y + last.h
 
                             code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
                             code.blocks[-1].text_input.text = block.text_input.text
+
+                        print(code)
 
                     moving = Tree()
                     flying = False
