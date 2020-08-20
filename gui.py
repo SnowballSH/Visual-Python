@@ -145,8 +145,8 @@ class Tree:
             #     d.update({f"{b.func}{i}": {"prompt": f"{b.text_input.text} ", "pos": [b.x, b.y], "size": [b.w, b.h],
             #                                "color": b.color, "name": b.name}})
             # else:
-            d.update({f"{b.func}{i}": {"args": {"text":b.text_input.text}, "pos": [b.x, b.y], "size": [b.w, b.h],
-                                           "color": b.color, "name": b.name}})
+            d.update({f"{b.func}{i}": {"args": {"text": b.text_input.text}, "pos": [b.x, b.y], "size": [b.w, b.h],
+                                       "color": b.color, "name": b.name}})
 
         return d
 
