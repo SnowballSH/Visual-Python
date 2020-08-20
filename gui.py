@@ -70,6 +70,9 @@ class Block:
     def __lt__(self, other):
         return self.y < other.y
 
+    def __repr__(self):
+        return f"{self.name} at {self.x, self.y, self.w, self.h}"
+
 
 class TextInput:
     def __init__(self, x, y, w, h):
@@ -147,6 +150,14 @@ class Tree:
 
 
 def main():
+    def organize(codes):
+        for i, b in enumerate(codes.blocks):
+            if i > 0:
+                last_ = codes.blocks[i - 1]
+                b.x = last_.x
+                b.y = last_.y + last_.h
+        return codes
+
     def draw():
         win.fill(GREY)  # creates background colour
 
@@ -281,20 +292,17 @@ def main():
                     # while flying is equal to True, everytime when you click it checks that
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
-                        # if 350 < x < width * 0.7:
-                        b_x, b_y = x, y
-                        if code.len > 0:
-                            last = code.blocks[-1]
-                            b_x = last.x
-                            b_y = last.y + last.h
-                            for i, b in enumerate(code.blocks[1:]):
-                                if i < code.len - 1:
-                                    last = code.blocks[i - 1]
-                                    b.x = last.x
-                                    b.y = last.y + last.h
+                        code = organize(code)
 
-                        code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
-                        code.blocks[-1].text_input.text = block.text_input.text
+                        if 350 < x < width * 0.7:
+                            b_x, b_y = x, y
+                            if code.len > 0:
+                                last = code.blocks[-1]
+                                b_x = last.x
+                                b_y = last.y + last.h
+
+                            code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
+                            code.blocks[-1].text_input.text = block.text_input.text
 
                     moving = Tree()
                     flying = False
