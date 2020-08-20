@@ -204,14 +204,14 @@ def main():
     bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-    ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
-    ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
-    ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
-    ope.append(Block(50, 265, 200, 50, RED, "division (not functional)", "comment"))
+    ope.append(Block(50, 100, 200, 50, RED, "sum (X)", "comment"))
+    ope.append(Block(50, 155, 200, 50, RED, "subtract (X)", "comment"))
+    ope.append(Block(50, 210, 200, 50, RED, "multiply (X)", "comment"))
+    ope.append(Block(50, 265, 200, 50, RED, "division (X)", "comment"))
 
     var = Tree()
-    var.append(Block(50, 100, 200, 50, GREEN, "assign_var (not functional)", "comment"))
-    var.append(Block(50, 155, 200, 50, GREEN, "call_var (not functional)", "comment"))
+    var.append(Block(50, 100, 200, 50, GREEN, "assign_var (X)", "comment"))
+    var.append(Block(50, 155, 200, 50, GREEN, "call_var (X)", "comment"))
 
     options = Tree()
     options.append(Block(40, 25, 120, 30, SEA_GREEN, "built-in-func", textdraw=False))
@@ -295,7 +295,18 @@ def main():
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
                         # if 350 < x < width * 0.7:
-                        code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                        b_x, b_y = x, y
+                        if code.len > 0:
+                            last = code.blocks[-1]
+                            b_x = last.x
+                            b_y = last.y + last.h
+                            for i, b in enumerate(code.blocks[1:]):
+                                if i < code.len - 1:
+                                    last = code.blocks[i - 1]
+                                    b.x = last.x
+                                    b.y = last.y + last.h
+
+                        code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
                         code.blocks[-1].text_input.text = block.text_input.text
 
                     moving = Tree()
