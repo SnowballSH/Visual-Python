@@ -35,6 +35,7 @@ class Block:
         self.color = colour
         self.x = x
         self.y = y
+        self.orig_w = w
         self.w = w
         self.h = h
         self.name = name
@@ -139,16 +140,12 @@ class Tree:
         d = {}
         self.blocks = sorted(self.blocks)
         for i, b in enumerate(self.blocks):
-            if b.func == 'print':
-                b.text_input.text = b.text_input.text.replace("'", r"\'")
-                d.update({f"{b.func}{i}": {"args": f"'{b.text_input.text}'", "pos": [b.x, b.y], "size": [b.w, b.h],
-                                           "color": b.color, "name": b.name}})
-            elif b.func == 'input':
-                b.text_input.text = b.text_input.text.replace("'", r"\'")
-                d.update({f"{b.func}{i}": {"prompt": f"'{b.text_input.text} '", "pos": [b.x, b.y], "size": [b.w, b.h],
-                                           "color": b.color, "name": b.name}})
-            else:
-                d.update({f"{b.func}{i}": {"args": f"{b.text_input.text}", "pos": [b.x, b.y], "size": [b.w, b.h],
+            # if b.func == 'input':
+            #     b.text_input.text = b.text_input.text.replace("'", r"\'")
+            #     d.update({f"{b.func}{i}": {"prompt": f"{b.text_input.text} ", "pos": [b.x, b.y], "size": [b.w, b.h],
+            #                                "color": b.color, "name": b.name}})
+            # else:
+            d.update({f"{b.func}{i}": {"args": {"text":b.text_input.text}, "pos": [b.x, b.y], "size": [b.w, b.h],
                                            "color": b.color, "name": b.name}})
 
         return d
@@ -227,13 +224,13 @@ def main():
         for func, args in data.items():
             func = "".join([i for i in func if i.isalpha()])
             code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
-            if func == 'print':
-                code.blocks[-1].text_input.text = args["args"][1:-1]
-            elif func == 'input':
-                code.blocks[-1].text_input.text = args["prompt"][1:-1]
-            else:
-                code.blocks[-1].text_input.text = args["args"]
-    except IOError:
+            # if func == 'print':
+            #     code.blocks[-1].text_input.text = args["args"][1:-1]
+            # if func == 'input':
+            #     code.blocks[-1].text_input.text = args["prompt"][1:-1]
+            # else:
+            code.blocks[-1].text_input.text = args["args"]["text"]
+    except Exception:
         with open("blocks.json", "w") as f:
             f.write("{}")
 

@@ -12,16 +12,21 @@ def parse(blocks):
     for block, attrs in blocks.items():
         if 'print' in block:
             args = attrs['args']
+            for arg in args:
+                if arg == 'text':
+                    args[arg] = "'"+args[arg]+"'"
+                # else:
+                #     args
             end = None
             sep = ' '
             if 'end' in attrs:
                 end = attrs['end'].replace('\n', '\\n')
             if 'sep' in attrs:
                 sep = attrs['sep']
-            gen.print_(args, end=end, sep=sep)
+            gen.print_(*list(args.values()), end=end, sep=sep)
         if 'input' in block:
-            prompt = attrs['prompt']
-            gen.input_(prompt)
+            prompt = attrs['args']["text"]
+            gen.write(input_("'"+prompt+" '"))
         if 'if' in block:
             conditional = attrs['args']
             gen.if_(conditional)
@@ -44,7 +49,7 @@ def parse(blocks):
         if 'assign_var' in block:
             gen.assign_var(attrs['name'], attrs['value'])
         if 'comment' in block:
-            gen.comment(attrs['args'])
+            gen.comment(attrs['args']["text"])
         if 'invoke' in block:
             func = attrs['function']
             args = attrs['args']
