@@ -197,15 +197,21 @@ def main():
     ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
     ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
     ope.append(Block(50, 265, 200, 50, RED, "division (not functional)", "comment"))
+    ope.append(Block(50, 320, 200, 50, RED, "join (not functional)", "comment"))
 
     var = Tree()
     var.append(Block(50, 100, 200, 50, GREEN, "assign_var (not functional)", "comment"))
     var.append(Block(50, 155, 200, 50, GREEN, "call_var (not functional)", "comment"))
 
+    myo = Tree()
+    myo.append(Block(50, 100, 200, 50, GREY, "define", "comment"))
+    myo.append(Block(50, 155, 200, 50, GREY, "invoke", "comment"))
+
     options = Tree()
     options.append(Block(40, 25, 120, 30, SEA_GREEN, "built-in-func", textdraw=False))
     options.append(Block(180, 25, 120, 30, SEA_GREEN, "operators", textdraw=False))
     options.append(Block(40, 60, 120, 30, SEA_GREEN, "variables", textdraw=False))
+    options.append(Block(180, 60, 120, 30, SEA_GREEN, "MYO-funcs", textdraw=False))
 
     moving = Tree()
     code = Tree()
@@ -320,6 +326,8 @@ def main():
                         which_options = ope.blocks
                     elif option == 2:
                         which_options = var.blocks
+                    elif option == 3:
+                        which_options = myo.blocks
 
             # writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
