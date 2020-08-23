@@ -236,6 +236,7 @@ def main():
     option = 0
 
     flying = False
+    first_flying = False
     typing = False
 
     movecode = False
@@ -291,7 +292,7 @@ def main():
                     for block in moving.blocks:
                         code = organize(code)
 
-                        if 350 < x < width * 0.7:
+                        if 350 < x < width * 0.7 and not first_flying:
                             b_x, b_y = x, y
                             if len(code.blocks) > 0:
                                 last = code.blocks[-1]
@@ -301,7 +302,12 @@ def main():
                             code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
                             code.blocks[-1].text_input.text = block.text_input.text
 
-                        print(code)
+                        else:  # First Flying
+                            code.blocks.insert(0, Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                            code.blocks[0].x = x
+                            code.blocks[0].y = y
+                            organize(code)
+                            first_flying = False
 
                     moving = Tree()
                     flying = False
@@ -314,6 +320,11 @@ def main():
                         typing_block = block
                     # checks if you clicked any other part of the block
                     elif block.clicked((x, y)):
+                        if block != code.blocks[0]:
+
+                            first_flying = False
+                        else:
+                            first_flying = True
                         code.blocks.remove(block)
                         flying = True
                         flyingblock = block
