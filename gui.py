@@ -302,6 +302,12 @@ def main():
                             code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
                             code.blocks[-1].text_input.text = block.text_input.text
 
+                        elif x < 350:
+                            if block in code.blocks:
+                                code.remove(block)
+                            del block
+                            organize(code)
+
                         else:  # First Flying
                             code.blocks.insert(0, Block(x, y, block.w, block.h, block.color, block.name, block.func))
                             code.blocks[0].x = x
