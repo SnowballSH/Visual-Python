@@ -314,7 +314,7 @@ def main():
                                     last = code.blocks[-1]
                                     b_x = last.x
                                     b_y = last.y + last.h
-                                code.append(Block(x, y, 200, 50, block.color, block.name, block.func))
+                                code.append(Block(b_x, b_y, 200, 50, block.color, block.name, block.func))
                                 code.blocks[-1].text_input.text = block.text_input.text
 
                         elif x < 350:
@@ -329,10 +329,6 @@ def main():
                             code.blocks[0].y = y
                             organize(code)
                             first_flying = False
-
-                        # if 350 < x < width * 0.7:
-                        if 350 < x:#################################################################
-                            
 
                     moving = Tree()
                     flying = False
