@@ -44,7 +44,7 @@ class Block:
 
         # renders the name and calls class TextInput
         self.text = BLOCK_FONT.render(name, True, BLACK)
-        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, self.w * 0.4, self.h * 0.8)
 
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
@@ -204,19 +204,26 @@ def main():
     bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-    ope.append(Block(50, 100, 200, 50, RED, "sum (X)", "comment"))
-    ope.append(Block(50, 155, 200, 50, RED, "subtract (X)", "comment"))
-    ope.append(Block(50, 210, 200, 50, RED, "multiply (X)", "comment"))
-    ope.append(Block(50, 265, 200, 50, RED, "division (X)", "comment"))
+    
+    ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
+    ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
+    ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
+    ope.append(Block(50, 265, 200, 50, RED, "division (not functional)", "comment"))
+    ope.append(Block(50, 320, 200, 50, RED, "join (not functional)", "comment"))
 
     var = Tree()
     var.append(Block(50, 100, 200, 50, GREEN, "assign_var (X)", "comment"))
     var.append(Block(50, 155, 200, 50, GREEN, "call_var (X)", "comment"))
 
+    myo = Tree()
+    myo.append(Block(50, 100, 200, 50, GREY, "define", "comment"))
+    myo.append(Block(50, 155, 200, 50, GREY, "invoke", "comment"))
+
     options = Tree()
     options.append(Block(40, 25, 120, 30, SEA_GREEN, "built-in-func", textdraw=False))
     options.append(Block(180, 25, 120, 30, SEA_GREEN, "operators", textdraw=False))
     options.append(Block(40, 60, 120, 30, SEA_GREEN, "variables", textdraw=False))
+    options.append(Block(180, 60, 120, 30, SEA_GREEN, "MYO-funcs", textdraw=False))
 
     moving = Tree()
     code = Tree()
@@ -281,26 +288,34 @@ def main():
 
                 # moving code part
                 # if 350 < x < width * 0.7: #checks that mouse click was inside code box
-                movecode = True
+                if 350 < x:
+                    movecode = True
                 for block in code.blocks:  # checks that you didn't click on any of the code blocks
                     if block.clicked(pygame.mouse.get_pos()):
                         movecode = False
 
                 if flying:
+                    setdown = False
                     # while flying is equal to True, everytime when you click it checks that
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
+
                         code = organize(code)
 
                         if 350 < x < width * 0.7 and not first_flying:
-                            b_x, b_y = x, y
-                            if len(code.blocks) > 0:
-                                last = code.blocks[-1]
-                                b_x = last.x
-                                b_y = last.y + last.h
+                            for bloc in code.blocks:
+                                if bloc.text_input.clicked((x, y)) and not setdown:
 
-                            code.append(Block(b_x, b_y, block.w, block.h, block.color, block.name, block.func))
-                            code.blocks[-1].text_input.text = block.text_input.text
+                                    code.append(Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func))
+                                    setdown = True
+                            if not setdown:
+                                b_x, b_y = x, y
+                                if len(code.blocks) > 0:
+                                    last = code.blocks[-1]
+                                    b_x = last.x
+                                    b_y = last.y + last.h
+                                code.append(Block(x, y, 200, 50, block.color, block.name, block.func))
+                                code.blocks[-1].text_input.text = block.text_input.text
 
                         elif x < 350:
                             if block in code.blocks:
@@ -314,6 +329,10 @@ def main():
                             code.blocks[0].y = y
                             organize(code)
                             first_flying = False
+
+                        # if 350 < x < width * 0.7:
+                        if 350 < x:#################################################################
+                            
 
                     moving = Tree()
                     flying = False
@@ -342,7 +361,7 @@ def main():
                             flyingblock = block
 
                 if flying:
-                    moving.blocks.append(flyingblock)
+                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func))
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
@@ -358,6 +377,8 @@ def main():
                         which_options = ope.blocks
                     elif option == 2:
                         which_options = var.blocks
+                    elif option == 3:
+                        which_options = myo.blocks
 
             # writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
