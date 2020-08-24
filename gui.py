@@ -31,7 +31,7 @@ OPTION_FONT = pygame.font.SysFont("lemon", 20)
 
 
 class Block:
-    def __init__(self, x, y, w, h, colour, name, func=None, textdraw=True):
+    def __init__(self, x, y, w, h, colour, name, func=None, textdraw=True, inside=None):
         # defining variables
         self.color = colour
         self.x = x
@@ -42,7 +42,7 @@ class Block:
         self.name = name
         self.func = func
         self.textdraw = textdraw
-        self.inside = None
+        self.inside = inside
 
         # renders the name and calls class TextInput
         self.text = BLOCK_FONT.render(name, True, BLACK)
@@ -51,11 +51,12 @@ class Block:
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        if self.textdraw:
+        if self.inside != None:
+             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+        elif self.textdraw:
             self.text_input.render()
             self.text_input.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
-        if self.inside != None:
-            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+
 
         win.blit(self.text, (self.x + 4, self.y + 4))
 
@@ -298,7 +299,7 @@ def main():
                                     code.blocks[index].inside = Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func)
                                     setdown = True
                             if not setdown:
-                                code.append(Block(x, y, 200, 50, block.color, block.name, block.func))
+                                code.append(Block(x, y, 200, 50, block.color, block.name, block.func, inside=block.inside))
                                 code.blocks[-1].text_input.text = block.text_input.text
 
 
@@ -324,7 +325,7 @@ def main():
                             flyingblock = block
 
                 if flying:
-                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func))
+                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func, inside=flyingblock.inside))
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
