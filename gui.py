@@ -204,7 +204,7 @@ def main():
     bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-    
+
     ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
     ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
     ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
@@ -235,6 +235,7 @@ def main():
             func = "".join([i for i in func if i.isalpha()])
             code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
             code.blocks[-1].text_input.text = args["args"]["text"]
+            code.blocks[-1].text_input.render()
     except Exception:
         with open("blocks.json", "w") as f:
             f.write("{}")
@@ -300,13 +301,14 @@ def main():
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
 
-                        code = organize(code)
-
                         if 350 < x < width * 0.7 and not first_flying:
                             for bloc in code.blocks:
                                 if bloc.text_input.clicked((x, y)) and not setdown:
-
-                                    code.append(Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func))
+                                    code.append(
+                                        Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8,
+                                              block.color, block.name, block.func))
+                                    code.blocks[-1].text_input.text = bloc.text_input.text
+                                    code.blocks[-1].text_input.render()
                                     setdown = True
                             if not setdown:
                                 b_x, b_y = x, y
@@ -316,18 +318,22 @@ def main():
                                     b_y = last.y + last.h
                                 code.append(Block(b_x, b_y, 200, 50, block.color, block.name, block.func))
                                 code.blocks[-1].text_input.text = block.text_input.text
+                                code.blocks[-1].text_input.render()
+                            code = organize(code)
 
                         elif x < 350:
                             if block in code.blocks:
                                 code.remove(block)
                             del block
-                            organize(code)
+                            code = organize(code)
 
                         else:  # First Flying
                             code.blocks.insert(0, Block(x, y, block.w, block.h, block.color, block.name, block.func))
+                            code.blocks[0].text_input.text = block.text_input.text
+                            code.blocks[0].text_input.render()
                             code.blocks[0].x = x
                             code.blocks[0].y = y
-                            organize(code)
+                            code = organize(code)
                             first_flying = False
 
                     moving = Tree()
@@ -357,7 +363,11 @@ def main():
                             flyingblock = block
 
                 if flying:
-                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func))
+                    moving.blocks.append(
+                        Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name,
+                              flyingblock.func))
+                    moving.blocks[-1].text_input.text = flyingblock.text_input.text
+                    moving.blocks[-1].text_input.render()
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
