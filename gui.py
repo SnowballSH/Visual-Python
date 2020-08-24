@@ -51,21 +51,21 @@ class Block:
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        if self.inside != None:
-             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
-        elif self.textdraw:
+        if self.textdraw and self.inside == None:
             self.text_input.render()
             self.text_input.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
-
+        elif self.inside != None:
+             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
 
         win.blit(self.text, (self.x + 4, self.y + 4))
 
     def moving(self, win, x, y):
         # draws when everything is being moved
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        self.text_input.moving(win, x + self.w - 85, y + self.h - 45)
+        self.text_input.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
         win.blit(self.text, (x + 4, y + 4))
-
+        if self.inside != None:
+            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
     def clicked(self, pos):
         # makes checking for clicking easier
         x, y = pos
@@ -176,6 +176,8 @@ def main():
         for d_block in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
             d_block.moving(win, p_x, p_y)
+            if d_block.inside != None:
+                d_block.inside.moving(win, p_x + d_block.w - (d_block.w * 0.425), p_y + d_block.h - (d_block.h * 0.9))
 
         # draws clear button
         pygame.draw.rect(win, GREEN, (50, height - 55, 200, 50))
@@ -293,7 +295,7 @@ def main():
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
                         # if 350 < x < width * 0.7:
-                        if 350 < x:#################################################################
+                        if 350 < x:
                             for index, bloc in enumerate(code.blocks):
                                 if bloc.text_input.clicked((x, y)) and not setdown:
                                     code.blocks[index].inside = Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func)
