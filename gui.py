@@ -44,7 +44,7 @@ class Block:
 
         # renders the name and calls class TextInput
         self.text = BLOCK_FONT.render(name, True, BLACK)
-        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, 80, 40)
+        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, self.w * 0.4, self.h * 0.8)
 
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
@@ -275,18 +275,28 @@ def main():
 
                 # moving code part
                 # if 350 < x < width * 0.7: #checks that mouse click was inside code box
-                movecode = True
+                if 350 < x:
+                    movecode = True
                 for block in code.blocks:  # checks that you didn't click on any of the code blocks
                     if block.clicked(pygame.mouse.get_pos()):
                         movecode = False
 
                 if flying:
+                    setdown = False
                     # while flying is equal to True, everytime when you click it checks that
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
                         # if 350 < x < width * 0.7:
-                        code.append(Block(x, y, block.w, block.h, block.color, block.name, block.func))
-                        code.blocks[-1].text_input.text = block.text_input.text
+                        if 350 < x:#################################################################
+                            for bloc in code.blocks:
+                                if bloc.text_input.clicked((x, y)) and not setdown:
+
+                                    code.append(Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func))
+                                    setdown = True
+                            if not setdown:
+                                code.append(Block(x, y, 200, 50, block.color, block.name, block.func))
+                                code.blocks[-1].text_input.text = block.text_input.text
+
 
                     moving = Tree()
                     flying = False
@@ -310,7 +320,7 @@ def main():
                             flyingblock = block
 
                 if flying:
-                    moving.blocks.append(flyingblock)
+                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func))
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
