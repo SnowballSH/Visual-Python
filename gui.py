@@ -22,6 +22,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 GREY = (198, 214, 198)
+GREYN = (50, 59, 58)
 
 SEA_GREEN = (0, 255, 197)
 
@@ -30,7 +31,7 @@ OPTION_FONT = pygame.font.SysFont("lemon", 20)
 
 
 class Block:
-    def __init__(self, x, y, w, h, colour, name, func=None, textdraw=True):
+    def __init__(self, x, y, w, h, colour, name, func=None, textdraw=True, inside=None):
         # defining variables
         self.color = colour
         self.x = x
@@ -41,6 +42,7 @@ class Block:
         self.name = name
         self.func = func
         self.textdraw = textdraw
+        self.inside = inside
 
         # renders the name and calls class TextInput
         self.text = BLOCK_FONT.render(name, True, BLACK)
@@ -49,17 +51,21 @@ class Block:
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        if self.textdraw:
+        if self.textdraw and self.inside == None:
             self.text_input.render()
-            self.text_input.draw(win, self.x + self.w - 85, self.y + self.h - 45)
+            self.text_input.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+        elif self.inside != None:
+             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+
         win.blit(self.text, (self.x + 4, self.y + 4))
 
     def moving(self, win, x, y):
         # draws when everything is being moved
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        self.text_input.moving(win, x + self.w - 85, y + self.h - 45)
+        self.text_input.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
         win.blit(self.text, (x + 4, y + 4))
-
+        if self.inside != None:
+            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
     def clicked(self, pos):
         # makes checking for clicking easier
         x, y = pos
@@ -181,6 +187,8 @@ def main():
         for d_block in moving.blocks:
             p_x, p_y = pygame.mouse.get_pos()
             d_block.moving(win, p_x, p_y)
+            if d_block.inside != None:
+                d_block.inside.moving(win, p_x + d_block.w - (d_block.w * 0.425), p_y + d_block.h - (d_block.h * 0.9))
 
         # draws clear button
         pygame.draw.rect(win, GREEN, (50, height - 55, 200, 50))
@@ -216,8 +224,8 @@ def main():
     var.append(Block(50, 155, 200, 50, GREEN, "call_var (X)", "comment"))
 
     myo = Tree()
-    myo.append(Block(50, 100, 200, 50, GREY, "define", "comment"))
-    myo.append(Block(50, 155, 200, 50, GREY, "invoke", "comment"))
+    myo.append(Block(50, 100, 200, 50, GREYN, "define", "comment"))
+    myo.append(Block(50, 155, 200, 50, GREYN, "invoke", "comment"))
 
     options = Tree()
     options.append(Block(40, 25, 120, 30, SEA_GREEN, "built-in-func", textdraw=False))
@@ -300,7 +308,6 @@ def main():
                     # while flying is equal to True, everytime when you click it checks that
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
-
                         if 350 < x < width * 0.7 and not first_flying:
                             for bloc in code.blocks:
                                 if bloc.text_input.clicked((x, y)) and not setdown:
@@ -317,9 +324,6 @@ def main():
                                     b_x = last.x
                                     b_y = last.y + last.h
                                 code.append(Block(b_x, b_y, 200, 50, block.color, block.name, block.func))
-                                code.blocks[-1].text_input.text = block.text_input.text
-                                code.blocks[-1].text_input.render()
-                            code = organize(code)
 
                         elif x < 350:
                             if block in code.blocks:
