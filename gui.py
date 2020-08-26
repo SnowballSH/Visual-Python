@@ -289,6 +289,8 @@ def main():
 
             # clicking
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                if not pygame.mouse.get_pressed()[0]:
+                    continue
                 x, y = pygame.mouse.get_pos()
 
                 # clearing all blocks
