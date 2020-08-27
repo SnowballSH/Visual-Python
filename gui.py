@@ -46,14 +46,16 @@ class Block:
 
         # renders the name and calls class TextInput
         self.text = BLOCK_FONT.render(name, True, BLACK)
-        self.text_input = TextInput(self.x + self.w - 85, self.y + self.h - 45, self.w * 0.4, self.h * 0.8)
+        self.text_input = [TextInput(self.x + self.w - 85, self.y + self.h - 45, self.w * 0.4, self.h * 0.8)]
 
     def draw(self, win, x, y):
         # draws the block and the text box if you define textdraw as true
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
         if self.textdraw and self.inside == None:
-            self.text_input.render()
-            self.text_input.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+            for i, text_input in enumerate(self.text_input):
+                self.text_input_coords = [[win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9)], [win, self.x + self.w, self.y + self.h]]
+                text_input.render()
+                text_input.draw(*self.text_input_coords[i])
         elif self.inside != None:
              self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
 
@@ -62,7 +64,9 @@ class Block:
     def moving(self, win, x, y):
         # draws when everything is being moved
         pygame.draw.rect(win, self.color, (x, y, self.w, self.h))
-        self.text_input.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
+        self.text_input_coords = [[win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9)], [win, self.x + self.w, self.y + self.h]]
+        for i, text_input in enumerate(self.text_input):
+            text_input.moving(*self.text_input_coords[i])
         win.blit(self.text, (x + 4, y + 4))
         if self.inside != None:
             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
@@ -201,7 +205,9 @@ def main():
     bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-    ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
+    ope.append(Block(50, 100, 210, 50, RED, "sum", "comment"))
+    ob = ope.blocks[0]
+    ob.text_input += [TextInput(ob.x, ob.y, ob.w * 0.4, ob.h * 0.8)]
     ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
     ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
     ope.append(Block(50, 265, 200, 50, RED, "division (not functional)", "comment"))
@@ -230,7 +236,8 @@ def main():
         for func, args in data.items():
             func = "".join([i for i in func if i.isalpha()])
             code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
-            code.blocks[-1].text_input.text = args["args"]["text"]
+            for text_input in code.blocks[-1].text_input:
+                text_input.text = args["args"]["text"]
     except Exception:
         with open("blocks.json", "w") as f:
             f.write("{}")
@@ -297,12 +304,14 @@ def main():
                         # if 350 < x < width * 0.7:
                         if 350 < x:
                             for index, bloc in enumerate(code.blocks):
-                                if bloc.text_input.clicked((x, y)) and not setdown:
-                                    code.blocks[index].inside = Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func)
-                                    setdown = True
+                                for text_input in bloc.text_input:
+                                    if text_input.clicked((x, y)) and not setdown:
+                                        code.blocks[index].inside = Block(text_input.x, text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func)
+                                        setdown = True
                             if not setdown:
                                 code.append(Block(x, y, 200, 50, block.color, block.name, block.func, inside=block.inside))
-                                code.blocks[-1].text_input.text = block.text_input.text
+                                for i, text_input in enumerate(code.blocks[-1].text_input):
+                                    text_input.text = block.text_input[i].text
 
 
                     moving = Tree()
@@ -311,14 +320,15 @@ def main():
                 # after every click sets typing to False and then checks if you clicked on textbox
                 typing = False
                 for block in code.blocks:
-                    if block.text_input.clicked((x, y)):
-                        typing = True
-                        typing_block = block
+                    for text_input in block.text_input:
+                        if text_input.clicked((x, y)):
+                            typing = True
+                            typing_block = block
                     # checks if you clicked any other part of the block
-                    elif block.clicked((x, y)):
-                        code.blocks.remove(block)
-                        flying = True
-                        flyingblock = block
+                        elif block.clicked((x, y)):
+                            code.blocks.remove(block)
+                            flying = True
+                            flyingblock = block
 
                 if not flying:  # checks if any of the available blocks was clicked
                     for block in which_options:
@@ -328,6 +338,7 @@ def main():
 
                 if flying:
                     moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func, inside=flyingblock.inside))
+                    moving.blocks[-1].text_input = flyingblock.text_input
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
@@ -348,16 +359,17 @@ def main():
 
             # writing inside functions
             elif event.type == pygame.KEYDOWN and typing:
-                ti = typing_block.text_input
-                if event.key == pygame.K_RETURN:  # if enter is pressed writing ends
-                    typing = False
-                elif event.key == pygame.K_BACKSPACE:  # deleting letters
-                    ti.text = ti.text[:-1]
-                else:  # every time you time text gets added
-                    ti.text += event.unicode
+                for text_input in typing_block.text_input:
+                    ti = text_input
+                    if event.key == pygame.K_RETURN:  # if enter is pressed writing ends
+                        typing = False
+                    elif event.key == pygame.K_BACKSPACE:  # deleting letters
+                        ti.text = ti.text[:-1]
+                    else:  # every time you time text gets added
+                        ti.text += event.unicode
 
-                ti.render()  # renders the output
-                ti.draw(win, ti.x, ti.y)  # draws the output
+                    ti.render()  # renders the output
+                    ti.draw(win, ti.x, ti.y)  # draws the output
 
     pygame.quit()
 
