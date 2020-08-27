@@ -55,7 +55,7 @@ class Block:
             self.text_input.render()
             self.text_input.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
         elif self.inside != None:
-             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
 
         win.blit(self.text, (self.x + 4, self.y + 4))
 
@@ -65,7 +65,10 @@ class Block:
         self.text_input.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
         win.blit(self.text, (x + 4, y + 4))
         if self.inside != None:
-            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+            self.inside.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
+            self.inside.text_input.moving(win, x + (self.w - (self.w * 0.425))+( self.inside.w - (self.inside.w * 0.425)) ,
+                                                y + (self.h - (self.h * 0.9)) + (self.inside.h - (self.inside.h * 0.9)))
+
     def clicked(self, pos):
         # makes checking for clicking easier
         x, y = pos
@@ -75,9 +78,6 @@ class Block:
 
     def __lt__(self, other):
         return self.y < other.y
-
-    def __repr__(self):
-        return f"{self.name} at {self.x, self.y, self.w, self.h}"
 
 
 class TextInput:
@@ -153,14 +153,6 @@ class Tree:
 
 
 def main():
-    def organize(codes):
-        for i, b in enumerate(codes.blocks):
-            if i > 0:
-                last_ = codes.blocks[i - 1]
-                b.x = last_.x
-                b.y = last_.y + last_.h
-        return codes
-
     def draw():
         win.fill(GREY)  # creates background colour
 
@@ -212,7 +204,6 @@ def main():
     bif.append(Block(50, 155, 200, 50, BLUE, "input", "input"))
 
     ope = Tree()
-
     ope.append(Block(50, 100, 200, 50, RED, "sum (not functional)", "comment"))
     ope.append(Block(50, 155, 200, 50, RED, "subtract (not functional)", "comment"))
     ope.append(Block(50, 210, 200, 50, RED, "multiply (not functional)", "comment"))
@@ -220,8 +211,8 @@ def main():
     ope.append(Block(50, 320, 200, 50, RED, "join (not functional)", "comment"))
 
     var = Tree()
-    var.append(Block(50, 100, 200, 50, GREEN, "assign_var (X)", "comment"))
-    var.append(Block(50, 155, 200, 50, GREEN, "call_var (X)", "comment"))
+    var.append(Block(50, 100, 200, 50, GREEN, "assign_var (not functional)", "comment"))
+    var.append(Block(50, 155, 200, 50, GREEN, "call_var (not functional)", "comment"))
 
     myo = Tree()
     myo.append(Block(50, 100, 200, 50, GREYN, "define", "comment"))
@@ -243,7 +234,6 @@ def main():
             func = "".join([i for i in func if i.isalpha()])
             code.append(Block(*args['pos'], *args['size'], args['color'], args['name'], func))
             code.blocks[-1].text_input.text = args["args"]["text"]
-            code.blocks[-1].text_input.render()
     except Exception:
         with open("blocks.json", "w") as f:
             f.write("{}")
@@ -252,7 +242,6 @@ def main():
     option = 0
 
     flying = False
-    first_flying = False
     typing = False
 
     movecode = False
@@ -308,37 +297,23 @@ def main():
                     # while flying is equal to True, everytime when you click it checks that
                     # you clicked inside code box and appends it into code Tree
                     for block in moving.blocks:
-                        if 350 < x < width * 0.7 and not first_flying:
-                            for bloc in code.blocks:
+                        # if 350 < x < width * 0.7:
+                        if 350 < x:
+                            for index, bloc in enumerate(code.blocks):
                                 if bloc.text_input.clicked((x, y)) and not setdown:
-                                    code.append(
-                                        Block(bloc.text_input.x, bloc.text_input.y, block.w * 0.4, block.h * 0.8,
-                                              block.color, block.name, block.func))
-                                    code.blocks[-1].text_input.text = bloc.text_input.text
-                                    code.blocks[-1].text_input.render()
+                                    bloc.inside = Block(bloc.text_input.x, bloc.text_input.y,
+                                                                      bloc.w * 0.4, bloc.h * 0.8, block.color,
+                                                                      bloc.name, bloc.func, bloc.textdraw, bloc.inside)
+                                    #(x, y, w, h, colour, name, func = None, textdraw = True, inside = None)
                                     setdown = True
+
                             if not setdown:
-                                b_x, b_y = x, y
-                                if len(code.blocks) > 0:
-                                    last = code.blocks[-1]
-                                    b_x = last.x
-                                    b_y = last.y + last.h
-                                code.append(Block(b_x, b_y, 200, 50, block.color, block.name, block.func))
-
-                        elif x < 350:
-                            if block in code.blocks:
-                                code.remove(block)
-                            del block
-                            code = organize(code)
-
-                        else:  # First Flying
-                            code.blocks.insert(0, Block(x, y, block.w, block.h, block.color, block.name, block.func))
-                            code.blocks[0].text_input.text = block.text_input.text
-                            code.blocks[0].text_input.render()
-                            code.blocks[0].x = x
-                            code.blocks[0].y = y
-                            code = organize(code)
-                            first_flying = False
+                                if block.inside != None:
+                                    code.blocks.append(Block(x, y, 200, 50, block.color, block.name, block.func, block.textdraw))
+                                    code.blocks[-1].inside = Block(code.blocks[-1].text_input.x, code.blocks[-1].text_input.y,
+                                                                          block.w * 0.4, block.h * 0.8, block.inside.color,
+                                                                          block.inside.name, block.inside.func, block.inside.textdraw)
+                                else:code.blocks.append(Block(x, y, 200, 50, block.color, block.name, block.func))
 
                     moving = Tree()
                     flying = False
@@ -351,11 +326,6 @@ def main():
                         typing_block = block
                     # checks if you clicked any other part of the block
                     elif block.clicked((x, y)):
-                        if block != code.blocks[0]:
-
-                            first_flying = False
-                        else:
-                            first_flying = True
                         code.blocks.remove(block)
                         flying = True
                         flyingblock = block
@@ -369,9 +339,7 @@ def main():
                 if flying:
                     moving.blocks.append(
                         Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name,
-                              flyingblock.func))
-                    moving.blocks[-1].text_input.text = flyingblock.text_input.text
-                    moving.blocks[-1].text_input.render()
+                              flyingblock.func, inside=flyingblock.inside))
 
                 if not typing:
                     for index, block in enumerate(options.blocks):
