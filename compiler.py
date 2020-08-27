@@ -67,9 +67,9 @@ def test_case(blocks):
     gen.close()
 
     divider = ['-' for _ in range(100)]
-    print(f"Compiled code. Executing {gen.file_path} in 2 seconds.\n")
+    print(f"Compiled code. Executing {gen.file_path} in 1 seconds.\n")
 
-    sleep(2.0)
+    sleep(1.0)
     print(*divider, '\n', sep='')
 
     os.system('python test.py')

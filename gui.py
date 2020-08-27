@@ -57,7 +57,7 @@ class Block:
                 text_input.render()
                 text_input.draw(*self.text_input_coords[i])
         elif self.inside != None:
-             self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
 
         win.blit(self.text, (self.x + 4, self.y + 4))
 
@@ -69,7 +69,11 @@ class Block:
             text_input.moving(*self.text_input_coords[i])
         win.blit(self.text, (x + 4, y + 4))
         if self.inside != None:
-            self.inside.draw(win, self.x + self.w - (self.w * 0.425), self.y + self.h - (self.h * 0.9))
+            self.inside.moving(win, x + self.w - (self.w * 0.425), y + self.h - (self.h * 0.9))
+            for text_input in self.inside.text_input:
+                text_input.moving(win, x + (self.w - (self.w * 0.425))+( self.inside.w - (self.inside.w * 0.425)) ,
+                                                y + (self.h - (self.h * 0.9)) + (self.inside.h - (self.inside.h * 0.9)))
+
     def clicked(self, pos):
         # makes checking for clicking easier
         x, y = pos
@@ -306,13 +310,22 @@ def main():
                             for index, bloc in enumerate(code.blocks):
                                 for text_input in bloc.text_input:
                                     if text_input.clicked((x, y)) and not setdown:
-                                        code.blocks[index].inside = Block(text_input.x, text_input.y, block.w * 0.4, block.h * 0.8, block.color, block.name, block.func)
+                                        bloc.inside = Block(text_input.x, text_input.y,
+                                                                    bloc.w * 0.4, bloc.h * 0.8, block.color,
+                                                                    bloc.name, bloc.func, bloc.textdraw, bloc.inside)
                                         setdown = True
                             if not setdown:
                                 code.append(Block(x, y, 200, 50, block.color, block.name, block.func, inside=block.inside))
                                 for i, text_input in enumerate(code.blocks[-1].text_input):
                                     text_input.text = block.text_input[i].text
 
+                            if not setdown:
+                                if block.inside != None:
+                                    code.blocks.append(Block(x, y, 200, 50, block.color, block.name, block.func, block.textdraw))
+                                    code.blocks[-1].inside = Block(code.blocks[-1].text_input.x, code.blocks[-1].text_input.y,
+                                                                        block.w * 0.4, block.h * 0.8, block.inside.color,
+                                                                        block.inside.name, block.inside.func, block.inside.textdraw)
+                                else:code.blocks.append(Block(x, y, 200, 50, block.color, block.name, block.func))
 
                     moving = Tree()
                     flying = False
@@ -337,7 +350,9 @@ def main():
                             flyingblock = block
 
                 if flying:
-                    moving.blocks.append(Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name, flyingblock.func, inside=flyingblock.inside))
+                    moving.blocks.append(
+                        Block(flyingblock.x, flyingblock.y, 200, 50, flyingblock.color, flyingblock.name,
+                            flyingblock.func, inside=flyingblock.inside))
                     moving.blocks[-1].text_input = flyingblock.text_input
 
                 if not typing:
