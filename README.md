@@ -5,7 +5,6 @@ This team consists of 4 people.<br>
 [SnowballSH ![pfp](https://avatars2.githubusercontent.com/u/66022611?s=17&v=4)](https://github.com/SnowballSH) <br>
 [12944qwerty ![pfp](https://avatars1.githubusercontent.com/u/45984786?s=17&v=4)](https://github.com/12944qwerty) <br>
 [NotLuka ![pfp](https://avatars0.githubusercontent.com/u/59296216?s=17&v=4)](https://github.com/NotLuka) <br>
-[HoaxSnowden18 ![pfp](https://avatars2.githubusercontent.com/u/63859883?s=17&v=4)](https://github.com/HoaxSnowden)
 
 ## The Project
 This project is a generator that generates a python file based on how blocks are placed in a GUI. We have 3 main files for this functionality.
